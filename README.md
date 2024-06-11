@@ -11,4 +11,4 @@ We respect your privacy and are committed to protecting any information you prov
 
 Data Collection: We do not collect any personal data or information from our users. Your privacy is important to us, and we do not track or store any data related to your usage of the app.
 
-Contact Us: If you have any questions or concerns about our privacy policy or the app What's Your Worth?, please contact us at pieternatanael@icloud.com.
+Contact Us: If you have any questions or concerns about our privacy policy or the app SOS Light, please contact us at pieternatanael@icloud.com.
