@@ -4,7 +4,7 @@
 //
 //  Created by Pieter Yoshua Natanael on 11/06/24.
 //
-
+//SOS Light is designed to maximize the chances of getting help in emergency situations, both indoors and outdoors, for users of all ages. With a simple tap, the app activates your screen and camera flash to blink a Morse code: SOS
 
 
 
