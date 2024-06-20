@@ -10,6 +10,7 @@
 
 
 
+
 import SwiftUI
 import AVFoundation
 
@@ -72,9 +73,11 @@ struct ContentView: View {
                 }) {
                     Text(isSOSActive ? "Stop SOS" : "Start SOS")
                         .font(.title)
+                        .frame(maxWidth: .infinity)
                         .padding()
                         .background(isSOSActive ? Color.red : Color.green)
                         .foregroundColor(.white)
+                        .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
                         .cornerRadius(10)
                 }
                 .padding()
