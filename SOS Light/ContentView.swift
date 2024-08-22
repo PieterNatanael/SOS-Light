@@ -146,7 +146,10 @@ struct ContentView: View {
     func playSound() {
 //        AudioServicesPlaySystemSound(1052)
 //        AudioServicesPlaySystemSound(1033)
-        AudioServicesPlaySystemSound(1333)
+//        AudioServicesPlaySystemSound(1304)
+//        AudioServicesPlaySystemSound(1309)
+//        AudioServicesPlaySystemSound(1314)
+        AudioServicesPlaySystemSound(1033)
     }
 }
 
@@ -169,7 +172,7 @@ struct ShowAdsAndAppFunctionalityView: View {
                 .padding()
                 HStack {
                     Text("Ads & App Functionality")
-                        .font(.title3.bold())
+                        .font(.title2.bold())
                     Spacer()
                 }
                 Divider().background(Color.gray)
@@ -177,7 +180,7 @@ struct ShowAdsAndAppFunctionalityView: View {
                 VStack {
                     HStack {
                         Text("Apps for you")
-                            .font(.title2.bold())
+                            .font(.title.bold())
                         Spacer()
                     }
 //                    ZStack {
@@ -233,8 +236,9 @@ struct ShowAdsAndAppFunctionalityView: View {
                 • Press 'Start SOS' to activate the SOS signal.
                 • The screen and flash will blink in SOS pattern (three short signals, three long signals, and three short signals again).
                 • Press 'Stop SOS' to deactivate the signal and stop the blinking.
+                • In SOS sound mode, adjust the haptic settings to 'Never Play' to disable vibration.
                 """)
-                .font(.title3)
+                .font(.title2)
                 .multilineTextAlignment(.leading)
                 .padding()
 
