@@ -7,8 +7,308 @@
 //SOS Light is designed to maximize the chances of getting help in emergency situations, both indoors and outdoors, for users of all ages. With a simple tap, the app activates your screen and camera flash to blink a Morse code: SOS
 //link Apple store :https://apps.apple.com/app/s0s-light/id6504213303
 
+import SwiftUI
+import AVFoundation
+
+struct ContentView: View {
+    @State private var showAdsAndAppFunctionality = false
+    @State private var isSOSActive = false
+    @State private var flashTimer: Timer?
+    @State private var screenColor: Color = .black
+    @State private var isSoundOn = false // State for sound toggle
+    
+    let morseDot: [Bool] = [true]
+    let morseDash: [Bool] = [true, true, true]
+    
+    var body: some View {
+        GeometryReader { geometry in
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        showAdsAndAppFunctionality = true
+                    }) {
+                        Image(systemName: "questionmark.circle.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(Color(.white))
+                            .padding()
+                            .shadow(color: Color.black.opacity(0.6), radius: 5, x: 0, y: 2)
+                    }
+                }
+                Text("SOS Light")
+                    .font(.largeTitle)
+                    .padding()
+                
+                Spacer()
+                
+    
+                
+                if isSOSActive {
+                    Text("SOS Active")
+                        .font(.title)
+                        .foregroundColor(.red)
+                        .padding()
+                } else {
+                    Text("SOS Inactive")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    isSOSActive.toggle()
+                    if isSOSActive {
+                        startSOS()
+                    } else {
+                        stopSOS()
+                    }
+                }) {
+                    Text(isSOSActive ? "Stop SOS" : "Start SOS")
+                        .font(.title)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(isSOSActive ? Color.red : Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+                .padding()
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .background(screenColor.edgesIgnoringSafeArea(.all))
+            .sheet(isPresented: $showAdsAndAppFunctionality) {
+                ShowAdsAndAppFunctionalityView(isSoundOn: $isSoundOn, onConfirm: {
+                    showAdsAndAppFunctionality = false
+                })
+            }
+        }
+    }
+    
 
 
+    
+    func startSOS() {
+        let morseSOS: [[Bool]] = [morseDot, morseDot, morseDot, morseDash, morseDash, morseDash, morseDot, morseDot, morseDot]
+        var sequence = [Bool]()
+        for morseSignal in morseSOS {
+            sequence.append(contentsOf: morseSignal)
+            sequence.append(false)
+        }
+        
+        var currentIndex = 0
+        flashTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+            if currentIndex < sequence.count {
+                let value = sequence[currentIndex]
+                toggleFlash(on: value)
+                toggleScreen(on: value)
+                if value && isSoundOn {
+                    playSound()
+                }
+                currentIndex += 1
+            } else {
+                timer.invalidate()
+                Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+                    if self.isSOSActive {
+                        self.startSOS()
+                    }
+                }
+            }
+        }
+        flashTimer?.fire()
+    }
+    
+    func stopSOS() {
+        flashTimer?.invalidate()
+        flashTimer = nil
+        turnOffFlash()
+        screenColor = .black
+    }
+    
+    func toggleFlash(on: Bool) {
+        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
+        try? device.lockForConfiguration()
+        device.torchMode = on ? .on : .off
+        device.unlockForConfiguration()
+    }
+    
+    func toggleScreen(on: Bool) {
+        screenColor = on ? .white : .black
+    }
+    
+    func turnOffFlash() {
+        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
+        try? device.lockForConfiguration()
+        device.torchMode = .off
+        device.unlockForConfiguration()
+    }
+    
+    func playSound() {
+
+        AudioServicesPlaySystemSound(1033)
+    }
+}
+
+struct ShowAdsAndAppFunctionalityView: View {
+    @Binding var isSoundOn: Bool
+    var onConfirm: () -> Void
+
+    var body: some View {
+        ScrollView {
+            VStack {
+                
+                // Sound toggle inside the question mark sheet
+                HStack {
+                    Text("SOS Sound")
+                        .font(.title.bold())
+                    Spacer()
+                    Toggle("Sound", isOn: $isSoundOn)
+                        .labelsHidden()
+                }
+                .padding()
+                HStack {
+                    Text("Ads & App Functionality")
+                        .font(.title2.bold())
+                    Spacer()
+                }
+                Divider().background(Color.gray)
+                
+                VStack {
+                    HStack {
+                        Text("Apps for you")
+                            .font(.title.bold())
+                        Spacer()
+                    }
+//                    ZStack {
+//                        Image("threedollar")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fill)
+//                            .cornerRadius(25)
+//                            .clipped()
+//                            .onTapGesture {
+//                                if let url = URL(string: "https://b33.biz/three-dollar/") {
+//                                    UIApplication.shared.open(url)
+//                                }
+//                            }
+//                    }
+                    VStack {
+//                        Divider().background(Color.gray)
+//                        AppCardView(imageName: "loopspeak", appName: "LOOPSpeak", appDescription: "Why read when you can learn by listening? Easily adjust the playback speed.", appURL: "https://apps.apple.com/id/app/loopspeak/id6473384030")
+//                        
+//                        Divider().background(Color.gray)
+//                        AppCardView(imageName: "BST", appName: "Blink Screen Time", appDescription: "Blink reminder for eye care: Extended screen time can reduce blinking, leading to dry eyes and fatigue.", appURL: "https://apps.apple.com/id/app/blink-screen-time/id6587551095")
+//                        
+                        Divider().background(Color.gray)
+                        AppCardView(imageName: "bodycam", appName: "BODYCam", appDescription: "Record long videos effortlessly.", appURL: "https://apps.apple.com/id/app/b0dycam/id6496689003")
+//                        Divider().background(Color.gray)
+//                        AppCardView(imageName: "timetell", appName: "TimeTell", appDescription: "Tell the time every 30 seconds: Just listen, no more guessing or checking your devices", appURL: "https://apps.apple.com/app/time-tell/id6479016269")
+                        Divider().background(Color.gray)
+                        AppCardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Record and play it back in a loop.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
+                       
+                        Divider().background(Color.gray)
+//                        AppCardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Ease your mind and help you relax leading up to sleep.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
+//                        Divider().background(Color.gray)
+//                        AppCardView(imageName: "dryeye", appName: "Dry Eye Read", appDescription: "Adjusting font size and color to suit your reading experience.", appURL: "https://apps.apple.com/id/app/dry-eye-read/id6474282023")
+                        Divider().background(Color.gray)
+                        AppCardView(imageName: "iprogram", appName: "iProgramMe", appDescription: "Custom affirmations.", appURL: "https://apps.apple.com/id/app/iprogramme/id6470770935")
+                        Divider().background(Color.gray)
+                 
+                      
+                    }
+                    Spacer()
+                }
+                .padding()
+                .cornerRadius(15.0)
+
+              
+
+                HStack {
+                    Text("App Functionality")
+                        .font(.title.bold())
+                    Spacer()
+                }
+
+                Text(
+"""
+   • Press 'Start SOS' to activate the SOS signal.
+   • The screen and flash will blink in SOS pattern (three short signals, three long signals, and three short signals again).
+   • Press 'Stop SOS' to deactivate the signal and stop the blinking.
+""")
+                .font(.title2)
+                .multilineTextAlignment(.leading)
+                .padding()
+
+                Spacer()
+
+                HStack {
+                    Text("SOS Light is developed by Three Dollar.")
+                        .font(.title3.bold())
+                    Spacer()
+                }
+
+                Button("Close") {
+                    onConfirm()
+                }
+                .font(.title)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .padding(.vertical, 10)
+            }
+            .padding()
+        }
+    }
+}
+
+struct AppCardView: View {
+    let imageName: String
+    let appName: String
+    let appDescription: String
+    let appURL: String
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Image(imageName)
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+                VStack(alignment: .leading) {
+                    Text(appName)
+                        .font(.title.bold())
+                    Text(appDescription)
+                        .font(.title2)
+                        
+                }
+                Spacer()
+            }
+            .onTapGesture {
+                if let url = URL(string: appURL) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        }
+        .padding(.vertical, 5)
+    }
+}
+
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainAppView()
+    }
+}
+
+
+
+
+
+
+/*
+//owrking well and publised but want to improve
 import SwiftUI
 import AVFoundation
 
@@ -305,7 +605,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
+*/
 /*
 //nagus tapi mau perbaiki sound agar tidak 3 beep tapi 1 beep panjang
 import SwiftUI
