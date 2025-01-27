@@ -75,7 +75,7 @@ class DataStore: ObservableObject {
     
     /// Exports all anger entries as a formatted string.
     func exportAllEntries() {
-        var exportString = "Export From SOS Diary\n\n"
+        var exportString = "Export From SOS Notes\n\n"
         exportString += entries.map { entry -> String in
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
@@ -118,11 +118,11 @@ struct DiaryView: View {
                     }
                 }
                 
-                Text("SOS Diary")
+                Text("SOS Notes")
                     .font(.title.bold())
                     .padding()
                 
-                TextField("Write down your SOS diary here...", text: $newText)
+                TextField("Write down your SOS Notes here...", text: $newText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                 
@@ -292,7 +292,7 @@ struct ShowExplainView: View {
             }
 
             Text("""
-            SOS Diary Features
+            SOS Notes Features
             Log Your SOS Situations
 
             Quickly Record Situations:
@@ -306,9 +306,9 @@ struct ShowExplainView: View {
             Include specific information such as:
             What happened?
             What actions were taken?
-            Where are the coordinates? Copy them directly from the built-in compass feature.
+            Where are the locations? Copy them directly from the built-in compass feature.
             Once done, click the "New Entry" button to save the details.
-            Whether it's a small concern or a serious emergency, SOS Diary helps you stay organized and prepared.
+            Whether it's a small concern or a serious emergency, SOS Notes helps you stay organized and prepared.
 
             Automatic Saving
 
@@ -322,7 +322,7 @@ struct ShowExplainView: View {
             
             Privacy First
 
-            Your SOS Diary entries remain securely stored on your device—nothing is collected or uploaded.
+            Your SOS Notes entries remain securely stored on your device—nothing is collected or uploaded.
             We prioritize your privacy, offering a confidential and secure way to manage and reflect on your SOS situations.
             
             """)
