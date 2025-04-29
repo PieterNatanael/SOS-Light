@@ -13,6 +13,7 @@
 		2179895F2C17F4460036040C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2179895E2C17F4460036040C /* ContentView.swift */; };
 		217989612C17F4480036040C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 217989602C17F4480036040C /* Assets.xcassets */; };
 		217989642C17F4480036040C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 217989632C17F4480036040C /* Preview Assets.xcassets */; };
+		21AE6EF42DC075F800026837 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EF32DC075F800026837 /* MapView.swift */; };
 		21B448542CFD4D2D00FDC970 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B448532CFD4D2700FDC970 /* DiaryView.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,7 @@
 		2179895E2C17F4460036040C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		217989602C17F4480036040C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		217989632C17F4480036040C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		21AE6EF32DC075F800026837 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		21B448532CFD4D2700FDC970 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,6 +63,7 @@
 				2179895E2C17F4460036040C /* ContentView.swift */,
 				215459232CFB11A400EA3D58 /* MainAppView.swift */,
 				215459212CFB0E1600EA3D58 /* CompassView.swift */,
+				21AE6EF32DC075F800026837 /* MapView.swift */,
 				21B448532CFD4D2700FDC970 /* DiaryView.swift */,
 				217989602C17F4480036040C /* Assets.xcassets */,
 				217989622C17F4480036040C /* Preview Content */,
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21B448542CFD4D2D00FDC970 /* DiaryView.swift in Sources */,
+				21AE6EF42DC075F800026837 /* MapView.swift in Sources */,
 				2179895F2C17F4460036040C /* ContentView.swift in Sources */,
 				215459242CFB11AB00EA3D58 /* MainAppView.swift in Sources */,
 				215459222CFB0E1B00EA3D58 /* CompassView.swift in Sources */,
@@ -287,6 +291,7 @@
 				DEVELOPMENT_TEAM = L295MT4VTH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SOS Light needs access to your location to provide location functionality";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SOS Light needs access to your location to provide compass functionality";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -318,6 +323,7 @@
 				DEVELOPMENT_TEAM = L295MT4VTH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SOS Light needs access to your location to provide location functionality";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SOS Light needs access to your location to provide compass functionality";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

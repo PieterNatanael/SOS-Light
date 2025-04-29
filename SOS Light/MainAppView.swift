@@ -15,7 +15,7 @@ struct MainAppView: View {
         TabView(selection: $selectedTab) {
             ContentView()
                 .tabItem {
-                    Image(systemName: "light.beacon.max")
+                    Image(systemName: "light.max")
                     Text("SOS")
                 }
                 .tag(0)
@@ -33,6 +33,15 @@ struct MainAppView: View {
                     Text("Diary")
                 }
                 .tag(2)
+            
+            MapView()
+                .tabItem {
+                    Image(systemName: "map")
+                    Text("Map")
+                }
+                .tag(3)
+            
         }
+        
     }
 }

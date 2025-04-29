@@ -102,7 +102,7 @@ struct DiaryView: View {
     var body: some View {
         ZStack {
             // Background Gradient
-            LinearGradient(colors: [Color(#colorLiteral(red: 0.5738074183, green: 0.5655357838, blue: 0, alpha: 1)), .clear], startPoint: .top, endPoint: .bottom)
+            LinearGradient(colors: [Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)), .clear], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             
             VStack {

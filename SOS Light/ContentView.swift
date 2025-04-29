@@ -36,7 +36,8 @@ struct ContentView: View {
                     }
                 }
                 Text("SOS Light")
-                    .font(.largeTitle)
+                    .font(.largeTitle.bold())
+                    .foregroundColor(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
                     .padding()
                 
                 Spacer()
