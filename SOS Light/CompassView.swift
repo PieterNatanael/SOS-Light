@@ -121,27 +121,51 @@ struct CompassView: View {
         VStack {
             Spacer()
             ZStack {
-                // Compass background circle
+                // Compass outer circle with gradient stroke
                 Circle()
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 2)
+                    .stroke(
+                        AngularGradient(
+                            gradient: Gradient(colors: [.gray.opacity(0.3), .gray.opacity(0.6)]),
+                            center: .center
+                        ),
+                        lineWidth: 2
+                    )
                     .frame(width: 250, height: 250)
-                
-                // Compass Rose
-                Image(systemName: "arrow.up")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(.red)
-                    .rotationEffect(Angle(degrees: -locationManager.heading))
-                
-                // Compass markings
+                    .shadow(color: .black.opacity(0.1), radius: 5)
+
+                // Compass markings (Major and Minor)
                 ForEach(0..<360, id: \.self) { degree in
-                    if degree % 45 == 0 {
+                    if degree % 15 == 0 {
                         CompassMarkView(degree: Double(degree), currentHeading: locationManager.heading)
                     }
                 }
+
+                // Highlight current heading with a glowing ring
+                Circle()
+                    .stroke(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)), lineWidth: 3)
+                    .frame(width: 260, height: 260)
+                    .opacity(locationManager.heading == 0 ? 0.5 : 0.2)  // Adjust opacity for better view
+                    .blur(radius: locationManager.heading == 0 ? 5 : 0) // Add subtle glow effect
+                    .rotationEffect(Angle(degrees: locationManager.heading))
+                    .animation(.easeInOut(duration: 1), value: locationManager.heading)
+
+                // Stylish compass arrow
+                ZStack {
+//                    Circle()
+//                        .fill(Color.white)
+//                        .frame(width: 50, height: 50)
+//                        .shadow(radius: 2)
+
+                    Image(systemName: "location.north.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 100)
+                        .foregroundColor(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
+                        .rotationEffect(Angle(degrees: -locationManager.heading))
+                }
             }
             .rotationEffect(Angle(degrees: locationManager.heading))
+
             
             Spacer()
             
@@ -252,7 +276,7 @@ struct CompassView: View {
 struct CompassMarkView: View {
     let degree: Double
     let currentHeading: Double
-    
+
     var directionText: String {
         switch degree {
         case 0: return "N"
@@ -266,17 +290,32 @@ struct CompassMarkView: View {
         default: return ""
         }
     }
-    
+
     var body: some View {
-        VStack {
-            Text(directionText)
-                .font(.caption)
-                .rotationEffect(Angle(degrees: -degree + currentHeading))
+        VStack(spacing: 2) {
+            if directionText.isEmpty {
+                // Minor tick
+                Rectangle()
+                    .fill(Color.gray.opacity(0.5))
+                    .frame(width: 1, height: 8)
+            } else {
+                // Major mark
+                Text(directionText)
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                    .rotationEffect(Angle(degrees: -degree)) // Keep upright
+
+                Rectangle()
+                    .fill(Color.primary)
+                    .frame(width: 2, height: 12)
+            }
         }
-        .offset(y: -125)
+        .offset(y: -120)
         .rotationEffect(Angle(degrees: degree))
     }
 }
+
 
 struct CompassView_Previews: PreviewProvider {
     static var previews: some View {

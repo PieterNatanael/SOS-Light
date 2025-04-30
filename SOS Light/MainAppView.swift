@@ -34,12 +34,27 @@ struct MainAppView: View {
                 }
                 .tag(2)
             
-            MapView()
+//            MapView()
+//                .tabItem {
+//                    Image(systemName: "map")
+//                    Text("Map")
+//                }
+//                .tag(3)
+            
+            DirectionView()
                 .tabItem {
-                    Image(systemName: "map")
-                    Text("Map")
+                    Image(systemName: "figure.walk")
+                    Text("Location")
                 }
                 .tag(3)
+            
+            SOSRelaxView()
+                .tabItem {
+                    Image(systemName: "face.smiling")
+                    Text("Relax")
+                }
+                .tag(4)
+
             
         }
         

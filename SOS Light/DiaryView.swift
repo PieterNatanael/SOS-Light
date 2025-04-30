@@ -119,7 +119,7 @@ struct DiaryView: View {
                     }
                 }
                 
-                Text("SOS Notes")
+                Text("SOS Diary")
                     .font(.title.bold())
                     .padding()
                 
@@ -263,7 +263,7 @@ struct ShowExplainView: View {
                     // Ads App Cards
                     VStack {
                         Divider().background(Color.gray)
-                        CardView(imageName: "takemedication", appName: "Take Medication", appDescription: "Just press any of the 24 buttons, each representing an hour of the day, and you'll get timely reminders to take your medication. It's easy, quick, and ensures you never miss a dose!", appURL: "https://apps.apple.com/id/app/take-medication/id6736924598")
+                        CardView(imageName: "takemedication", appName: "Take Medication", appDescription: "Just press any of the 24 buttons.It's easy, quick, and ensures you never miss a dose!", appURL: "https://apps.apple.com/id/app/take-medication/id6736924598")
                         
                         Divider().background(Color.gray)
 
@@ -273,9 +273,9 @@ struct ShowExplainView: View {
 //                        Divider().background(Color.gray)
 //                        CardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Record your voice effortlessly, and play it back in a loop.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
 //                        Divider().background(Color.gray)
-                        CardView(imageName: "hemorrhoid", appName: "Hemorrhoid", appDescription: " Ideal for individuals who experience hemorrhoids due to prolonged sitting or wish to prevent recurrence after previous episodes.", appURL: "https://apps.apple.com/app/hemorrhoid/id6738301292")
+//                        CardView(imageName: "hemorrhoid", appName: "Hemorrhoid", appDescription: " Ideal for individuals who experience hemorrhoids due to prolonged sitting or wish to prevent recurrence after previous episodes.", appURL: "https://apps.apple.com/app/hemorrhoid/id6738301292")
                         Divider().background(Color.gray)
-//                        CardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Design to ease your mind and help you relax leading up to sleep.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
+                        CardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Design to ease your mind and help you relax leading up to sleep.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
 //                        Divider().background(Color.gray)
 //                        CardView(imageName: "dryeye", appName: "Dry Eye Read", appDescription: "Read content on screen easily and comfortably without stressing your eyes.", appURL: "https://apps.apple.com/id/app/dry-eye-read/id6449525064")
 //                        Divider().background(Color.gray)
@@ -344,8 +344,8 @@ struct ShowExplainView: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
+            .background(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
+            .foregroundColor(.black)
             .font(.title3.bold())
             .cornerRadius(10)
             .padding()

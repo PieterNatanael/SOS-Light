@@ -14,6 +14,8 @@
 		217989612C17F4480036040C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 217989602C17F4480036040C /* Assets.xcassets */; };
 		217989642C17F4480036040C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 217989632C17F4480036040C /* Preview Assets.xcassets */; };
 		21AE6EF42DC075F800026837 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EF32DC075F800026837 /* MapView.swift */; };
+		21AE6EF62DC0B93000026837 /* DirectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EF52DC0B93000026837 /* DirectionView.swift */; };
+		21AE6EFA2DC1F4FC00026837 /* Joke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EF92DC1F4FC00026837 /* Joke.swift */; };
 		21B448542CFD4D2D00FDC970 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B448532CFD4D2700FDC970 /* DiaryView.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +28,8 @@
 		217989602C17F4480036040C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		217989632C17F4480036040C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		21AE6EF32DC075F800026837 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		21AE6EF52DC0B93000026837 /* DirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionView.swift; sourceTree = "<group>"; };
+		21AE6EF92DC1F4FC00026837 /* Joke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joke.swift; sourceTree = "<group>"; };
 		21B448532CFD4D2700FDC970 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,7 +68,9 @@
 				215459232CFB11A400EA3D58 /* MainAppView.swift */,
 				215459212CFB0E1600EA3D58 /* CompassView.swift */,
 				21AE6EF32DC075F800026837 /* MapView.swift */,
+				21AE6EF92DC1F4FC00026837 /* Joke.swift */,
 				21B448532CFD4D2700FDC970 /* DiaryView.swift */,
+				21AE6EF52DC0B93000026837 /* DirectionView.swift */,
 				217989602C17F4480036040C /* Assets.xcassets */,
 				217989622C17F4480036040C /* Preview Content */,
 			);
@@ -151,9 +157,11 @@
 			files = (
 				21B448542CFD4D2D00FDC970 /* DiaryView.swift in Sources */,
 				21AE6EF42DC075F800026837 /* MapView.swift in Sources */,
+				21AE6EF62DC0B93000026837 /* DirectionView.swift in Sources */,
 				2179895F2C17F4460036040C /* ContentView.swift in Sources */,
 				215459242CFB11AB00EA3D58 /* MainAppView.swift in Sources */,
 				215459222CFB0E1B00EA3D58 /* CompassView.swift in Sources */,
+				21AE6EFA2DC1F4FC00026837 /* Joke.swift in Sources */,
 				2179895D2C17F4460036040C /* SOS_LightApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

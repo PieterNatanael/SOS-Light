@@ -199,12 +199,12 @@ struct ShowAdsAndAppFunctionalityView: View {
 //                        Divider().background(Color.gray)
 //                        AppCardView(imageName: "BST", appName: "Blink Screen Time", appDescription: "Blink reminder for eye care: Extended screen time can reduce blinking, leading to dry eyes and fatigue.", appURL: "https://apps.apple.com/id/app/blink-screen-time/id6587551095")
 //                        
-                        Divider().background(Color.gray)
-                        AppCardView(imageName: "bodycam", appName: "BODYCam", appDescription: "Record long videos effortlessly.", appURL: "https://apps.apple.com/id/app/b0dycam/id6496689003")
 //                        Divider().background(Color.gray)
-//                        AppCardView(imageName: "timetell", appName: "TimeTell", appDescription: "Tell the time every 30 seconds: Just listen, no more guessing or checking your devices", appURL: "https://apps.apple.com/app/time-tell/id6479016269")
+//                        AppCardView(imageName: "bodycam", appName: "BODYCam", appDescription: "Record long videos effortlessly.", appURL: "https://apps.apple.com/id/app/b0dycam/id6496689003")
                         Divider().background(Color.gray)
-                        AppCardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Record and play it back in a loop.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
+                        AppCardView(imageName: "timetell", appName: "TimeTell", appDescription: "Tells the time every 30 seconds — for mindfulness, timeboxing, ADHD focus, workouts, and more", appURL: "https://apps.apple.com/app/time-tell/id6479016269")
+                        Divider().background(Color.gray)
+                        AppCardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Sing and play it back in a loop.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
                        
                         Divider().background(Color.gray)
 //                        AppCardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Ease your mind and help you relax leading up to sleep.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
@@ -250,11 +250,11 @@ struct ShowAdsAndAppFunctionalityView: View {
                 Button("Close") {
                     onConfirm()
                 }
-                .font(.title)
+                .font(.title3.bold())
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
+                .background(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
+                .foregroundColor(.black)
                 .cornerRadius(10)
                 .padding(.vertical, 10)
             }
