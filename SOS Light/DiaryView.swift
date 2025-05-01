@@ -156,6 +156,8 @@ struct DiaryView: View {
                     Text("Export All")
                         .font(.title2)
                         .padding()
+                    
+                    
                 }
                 .frame(width: 233)
                 .background(Color.white)
@@ -163,6 +165,8 @@ struct DiaryView: View {
                 .foregroundColor(.black)
                 .padding()
                 .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
+                
+            
                 
                 List {
                     ForEach(dataStore.entries) { entry in
@@ -263,7 +267,7 @@ struct ShowExplainView: View {
                     // Ads App Cards
                     VStack {
                         Divider().background(Color.gray)
-                        CardView(imageName: "takemedication", appName: "Take Medication", appDescription: "Just press any of the 24 buttons.It's easy, quick, and ensures you never miss a dose!", appURL: "https://apps.apple.com/id/app/take-medication/id6736924598")
+                        CardView(imageName: "takemedication", appName: "Take Medication", appDescription: "Just press any of the 24 buttons.It's easy, quick, and ensures you never miss a dose!and with a built in medication tracker", appURL: "https://apps.apple.com/id/app/take-medication/id6736924598")
                         
                         Divider().background(Color.gray)
 
@@ -275,7 +279,7 @@ struct ShowExplainView: View {
 //                        Divider().background(Color.gray)
 //                        CardView(imageName: "hemorrhoid", appName: "Hemorrhoid", appDescription: " Ideal for individuals who experience hemorrhoids due to prolonged sitting or wish to prevent recurrence after previous episodes.", appURL: "https://apps.apple.com/app/hemorrhoid/id6738301292")
                         Divider().background(Color.gray)
-                        CardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Design to ease your mind and help you relax leading up to sleep.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
+                        CardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Made to calm your mind and help you relax before sleep. Includes sleep hypnosis and a sleep tracker to support better rest.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
 //                        Divider().background(Color.gray)
 //                        CardView(imageName: "dryeye", appName: "Dry Eye Read", appDescription: "Read content on screen easily and comfortably without stressing your eyes.", appURL: "https://apps.apple.com/id/app/dry-eye-read/id6449525064")
 //                        Divider().background(Color.gray)

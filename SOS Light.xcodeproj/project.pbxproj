@@ -16,6 +16,8 @@
 		21AE6EF42DC075F800026837 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EF32DC075F800026837 /* MapView.swift */; };
 		21AE6EF62DC0B93000026837 /* DirectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EF52DC0B93000026837 /* DirectionView.swift */; };
 		21AE6EFA2DC1F4FC00026837 /* Joke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EF92DC1F4FC00026837 /* Joke.swift */; };
+		21AE6EFD2DC332C500026837 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21AE6EFC2DC332C500026837 /* StoreKit.framework */; };
+		21AE6EFF2DC332F200026837 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EFE2DC332F200026837 /* StoreManager.swift */; };
 		21B448542CFD4D2D00FDC970 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B448532CFD4D2700FDC970 /* DiaryView.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		21AE6EF32DC075F800026837 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		21AE6EF52DC0B93000026837 /* DirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionView.swift; sourceTree = "<group>"; };
 		21AE6EF92DC1F4FC00026837 /* Joke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joke.swift; sourceTree = "<group>"; };
+		21AE6EFC2DC332C500026837 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		21AE6EFE2DC332F200026837 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		21B448532CFD4D2700FDC970 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -38,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21AE6EFD2DC332C500026837 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				2179895B2C17F4460036040C /* SOS Light */,
+				21AE6EFB2DC332C500026837 /* Frameworks */,
 				2179895A2C17F4460036040C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -69,6 +75,7 @@
 				215459212CFB0E1600EA3D58 /* CompassView.swift */,
 				21AE6EF32DC075F800026837 /* MapView.swift */,
 				21AE6EF92DC1F4FC00026837 /* Joke.swift */,
+				21AE6EFE2DC332F200026837 /* StoreManager.swift */,
 				21B448532CFD4D2700FDC970 /* DiaryView.swift */,
 				21AE6EF52DC0B93000026837 /* DirectionView.swift */,
 				217989602C17F4480036040C /* Assets.xcassets */,
@@ -83,6 +90,14 @@
 				217989632C17F4480036040C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		21AE6EFB2DC332C500026837 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				21AE6EFC2DC332C500026837 /* StoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +176,7 @@
 				2179895F2C17F4460036040C /* ContentView.swift in Sources */,
 				215459242CFB11AB00EA3D58 /* MainAppView.swift in Sources */,
 				215459222CFB0E1B00EA3D58 /* CompassView.swift in Sources */,
+				21AE6EFF2DC332F200026837 /* StoreManager.swift in Sources */,
 				21AE6EFA2DC1F4FC00026837 /* Joke.swift in Sources */,
 				2179895D2C17F4460036040C /* SOS_LightApp.swift in Sources */,
 			);
@@ -294,7 +310,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4;
+				CURRENT_PROJECT_VERSION = 1.7;
 				DEVELOPMENT_ASSET_PATHS = "\"SOS Light/Preview Content\"";
 				DEVELOPMENT_TEAM = L295MT4VTH;
 				ENABLE_PREVIEWS = YES;
@@ -311,7 +327,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = "PieterNatanael.SOS-Light";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -326,7 +342,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4;
+				CURRENT_PROJECT_VERSION = 1.7;
 				DEVELOPMENT_ASSET_PATHS = "\"SOS Light/Preview Content\"";
 				DEVELOPMENT_TEAM = L295MT4VTH;
 				ENABLE_PREVIEWS = YES;
@@ -343,7 +359,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = "PieterNatanael.SOS-Light";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

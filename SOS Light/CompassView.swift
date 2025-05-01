@@ -222,6 +222,9 @@ struct CompassView: View {
                 .font(.headline)
             }
             .padding()
+            
+            
+           
         }
     }
     

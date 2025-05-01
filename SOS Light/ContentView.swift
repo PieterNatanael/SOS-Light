@@ -73,8 +73,11 @@ struct ContentView: View {
                         .background(isSOSActive ? Color.red : Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
                         .foregroundColor(.black)
                         .cornerRadius(10)
+                    
                 }
                 .padding()
+                
+                
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
             .background(screenColor.edgesIgnoringSafeArea(.all))
