@@ -76,7 +76,11 @@ struct ContentView: View {
                     
                 }
                 .padding()
-                
+//                Text("❤️ Love SOS Light? Open SOS Relax to learn more")
+//                    .font(.footnote)
+//                    .multilineTextAlignment(.center)
+//                    .padding(.horizontal)
+//                    .padding()
                 
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
@@ -207,7 +211,7 @@ struct ShowAdsAndAppFunctionalityView: View {
                         Divider().background(Color.gray)
                         AppCardView(imageName: "timetell", appName: "TimeTell", appDescription: "Tells the time every 30 seconds — for mindfulness, timeboxing, ADHD focus, workouts, and more", appURL: "https://apps.apple.com/app/time-tell/id6479016269")
                         Divider().background(Color.gray)
-                        AppCardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Sing and play it back in a loop.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
+                        AppCardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Sing Loop lets you record your voice and play it back in a loop—great for practicing, layering, and enjoying your own voice. Sing, experiment with melodies, and get creative.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
                        
                         Divider().background(Color.gray)
 //                        AppCardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Ease your mind and help you relax leading up to sleep.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
@@ -237,17 +241,28 @@ struct ShowAdsAndAppFunctionalityView: View {
    • Press 'Start SOS' to activate the SOS signal.
    • The screen and flash will blink in SOS pattern (three short signals, three long signals, and three short signals again).
    • Press 'Stop SOS' to deactivate the signal and stop the blinking.
+  
 """)
                 .font(.title2)
                 .multilineTextAlignment(.leading)
                 .padding()
 
                 Spacer()
+//                
+//                Our mission with SOS Light is to be a trusted helper in emergencies — bringing key tools into one app to keep people safe, visible, and supported when it matters most.
 
                 HStack {
-                    Text("SOS Light is developed by Three Dollar.")
-                        .font(.title3.bold())
-                    Spacer()
+                    
+                    Text("""
+                   ❤️ Love SOS Light? Open SOS Relax to learn more.
+                """)
+                        .font(.title3)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                    
+//                    Text("SOS Light is developed by Three Dollar.")
+//                        .font(.title3.bold())
+//                    Spacer()
                 }
 
                 Button("Close") {

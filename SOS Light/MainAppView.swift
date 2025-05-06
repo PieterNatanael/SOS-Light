@@ -34,12 +34,6 @@ struct MainAppView: View {
                 }
                 .tag(2)
             
-//            MapView()
-//                .tabItem {
-//                    Image(systemName: "map")
-//                    Text("Map")
-//                }
-//                .tag(3)
             
             DirectionView()
                 .tabItem {

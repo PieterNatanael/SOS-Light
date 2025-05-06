@@ -74,7 +74,25 @@ class DataStore: ObservableObject {
         }
     }
     
+    //trigger crash on Ipad but not on iPhone
     /// Exports all anger entries as a formatted string.
+//    func exportAllEntries() {
+//        var exportString = "Export From SOS Notes\n\n"
+//        exportString += entries.map { entry -> String in
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateStyle = .medium
+//            dateFormatter.timeStyle = .short
+//            let formattedDate = dateFormatter.string(from: entry.date)
+//            return "\(formattedDate) - \(entry.text) - Priority Level: \(entry.angerLevel)"
+//        }.joined(separator: "\n")
+//        
+//        let activityViewController = UIActivityViewController(activityItems: [exportString], applicationActivities: nil)
+//        
+//        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+//    }
+//    
+   
+    
     func exportAllEntries() {
         var exportString = "Export From SOS Notes\n\n"
         exportString += entries.map { entry -> String in
@@ -84,11 +102,25 @@ class DataStore: ObservableObject {
             let formattedDate = dateFormatter.string(from: entry.date)
             return "\(formattedDate) - \(entry.text) - Priority Level: \(entry.angerLevel)"
         }.joined(separator: "\n")
-        
+
         let activityViewController = UIActivityViewController(activityItems: [exportString], applicationActivities: nil)
-        
-        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+
+        // Safely get the root view controller
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootVC = scene.windows.first?.rootViewController {
+
+            // For iPad: set sourceView for popover
+            if let popover = activityViewController.popoverPresentationController {
+                popover.sourceView = rootVC.view
+                popover.sourceRect = CGRect(x: rootVC.view.bounds.midX, y: rootVC.view.bounds.midY, width: 0, height: 0)
+                popover.permittedArrowDirections = []
+            }
+
+            rootVC.present(activityViewController, animated: true, completion: nil)
+        }
     }
+    
+    
 }
 
 // MARK: - Main Content View
@@ -330,6 +362,8 @@ struct ShowExplainView: View {
             Your SOS Notes entries remain securely stored on your device—nothing is collected or uploaded.
             We prioritize your privacy, offering a confidential and secure way to manage and reflect on your SOS situations.
             
+            
+            
             """)
             .font(.title3)
             .multilineTextAlignment(.leading)
@@ -338,10 +372,22 @@ struct ShowExplainView: View {
             Spacer()
 
             HStack {
-                Text("SOS Light is developed by Three Dollar.")
-                    .font(.title3.bold())
+                
+       
+                
+                Text("""
+               ❤️ Love SOS Light? Open SOS Relax to learn more.
+            """)
+                    .font(.title3)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                
+//                Text("SOS Light is developed by Three Dollar.")
+//                    .font(.title3.bold())
                 Spacer()
             }
+            
+            
             
             Button("Close") {
                 onConfirm()
