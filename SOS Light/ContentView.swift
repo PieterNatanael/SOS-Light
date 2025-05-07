@@ -214,9 +214,7 @@ struct ShowAdsAndAppFunctionalityView: View {
                         AppCardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Sing Loop lets you record your voice and play it back in a loop—great for practicing, layering, and enjoying your own voice. Sing, experiment with melodies, and get creative.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
                        
                         Divider().background(Color.gray)
-//                        AppCardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Ease your mind and help you relax leading up to sleep.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
-//                        Divider().background(Color.gray)
-//                        AppCardView(imageName: "dryeye", appName: "Dry Eye Read", appDescription: "Adjusting font size and color to suit your reading experience.", appURL: "https://apps.apple.com/id/app/dry-eye-read/id6474282023")
+
                         Divider().background(Color.gray)
                         AppCardView(imageName: "iprogram", appName: "iProgramMe", appDescription: "Custom affirmations.", appURL: "https://apps.apple.com/id/app/iprogramme/id6470770935")
                         Divider().background(Color.gray)
