@@ -49,6 +49,21 @@ struct SOSRelaxView: View {
     private let jokeCountKey = "jokeCount"
     private let lastUsedDateKey = "lastUsedDate"
 
+//The body property
+    
+//    This is the layout of the screen.
+//    VStack stacks UI elements vertically.
+//    Inside, it shows:
+//    App title
+//    Joke setup (and punchline if revealed)
+//    Buttons to get joke and show answer
+//    Informational text
+//    Supporter badge
+//    Subscribe button
+    
+//    Conditional Views
+//    SwiftUI uses if, else, etc. inside the body to show different views based on state.
+//    
     var body: some View {
         VStack(spacing: 20) {
             Text("SOS Relax")
@@ -135,6 +150,12 @@ struct SOSRelaxView: View {
             
         }
         .padding()
+        
+        
+//        .sheet(isPresented:) shows the subscription screen
+//        .alert(isPresented:) shows a pop-up when the free joke limit is hit
+        
+        
         .sheet(isPresented: $showingSheet) {
             SubscriptionView(isPresented: $showingSheet, showingLegalInfo: $showingLegalInfo)
         }
@@ -159,6 +180,10 @@ struct SOSRelaxView: View {
     // MARK: - Joke Fetch Logic
     
     
+    
+//    Async Actions
+//    Task { await ... } runs asynchronous code, like fetching data from the internet.
+//    fetchJokeIfAllowed() checks if the user can get a joke today (free or subscribed), and then calls fetchJoke().
 
     func fetchJokeIfAllowed() async {
         if subscriptionManager.isSubscribed || canFetchJoke() {
@@ -193,7 +218,15 @@ struct SOSRelaxView: View {
     }
 
     // MARK: - Daily Limit Handling
-
+    
+    
+    
+//    These handle:
+//
+//    Tracking jokes shown per day using UserDefaults
+//    Resetting counter when a new day starts
+    
+    
     func canFetchJoke() -> Bool {
         resetIfNewDay()
         return getJokeCountToday() < dailyLimit
@@ -222,6 +255,12 @@ struct SOSRelaxView: View {
 }
 
 // Separate view for subscription to improve code organization
+//
+//Shows support/upgrade UI
+//Uses the same SubscriptionManager object
+//Has buttons to subscribe, restore, see legal info, and rate the app
+
+
 struct SubscriptionView: View {
     @Binding var isPresented: Bool
     @Binding var showingLegalInfo: Bool
@@ -348,6 +387,11 @@ func priceText(from priceString: String) -> String {
 
 
 // Separate view for legal information
+
+//Shown inside a .sheet when tapping "Privacy Policy"
+//Uses ScrollView so the legal content can be scrolled
+
+
 struct LegalInfoView: View {
     @Binding var isPresented: Bool
     
@@ -404,6 +448,7 @@ struct LegalInfoView: View {
 #Preview {
     SOSRelaxView()
 }
+
 
 
 //bagus dan launch tapi mau ada comment
