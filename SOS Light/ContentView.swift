@@ -16,7 +16,7 @@ struct ContentView: View {
     @State private var flashTimer: Timer?
     @State private var screenColor: Color = .black
     @State private var isSoundOn = false // State for sound toggle
-    
+    //check if the github work
     let morseDot: [Bool] = [true]
     let morseDash: [Bool] = [true, true, true]
     
