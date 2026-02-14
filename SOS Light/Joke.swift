@@ -10,7 +10,7 @@
 import SwiftUI
 import StoreKit
 
-
+//the text to large for small screen
 //struct Joke: Decodable
 //This defines the structure of a joke received from the API.
 //Decodable means it can be created from JSON data.
