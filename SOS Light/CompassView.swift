@@ -236,8 +236,13 @@ struct CompassView: View {
     // Copy location information
     func copyLocationInformation() {
         guard let coords = locationManager.coordinates else { return }
+        let timestampFormatter = DateFormatter()
+        timestampFormatter.dateStyle = .medium
+        timestampFormatter.timeStyle = .medium
+        let timestamp = timestampFormatter.string(from: Date())
         
         let locationInfo = """
+        Date & Time: \(timestamp)
         Location: \(locationManager.placeName)
         Heading: \(Int(locationManager.heading))°
         Altitude: \(String(format: "%.1f", locationManager.altitude)) m

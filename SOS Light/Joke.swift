@@ -65,44 +65,60 @@ struct SOSRelaxView: View {
 //    SwiftUI uses if, else, etc. inside the body to show different views based on state.
 //    
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 16) {
             Text("SOS Relax")
                 .font(.largeTitle)
                 .bold()
 
-            if let joke = joke {
-                Text(joke.setup)
-                    .font(.title2)
-                    .multilineTextAlignment(.center)
-                    .padding()
+            ScrollView {
+                VStack(spacing: 12) {
+                    if let joke = joke {
+                        Text(joke.setup)
+                            .font(.title3)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.horizontal)
 
-                //max title3 because cant read all on smaller screen like iP6
-                if showPunchline {
-                    Text(joke.punchline)
-                        .font(.title3.bold())
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                } else {
-                    Button("Show Answer") {
-                        showPunchline = true
+                        if showPunchline {
+                            Text(joke.punchline)
+                                .font(.body.bold())
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.horizontal)
+                        } else {
+                            Button("Show Answer") {
+                                showPunchline = true
+                            }
+                            .font(.title3)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .padding(.horizontal)
+                        }
+                    } else if isLoading {
+                        ProgressView("Generating a joke...")
+                            .padding(.vertical, 8)
+                    } else if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.horizontal)
+                    } else {
+                        Text("Tap below to get a light-hearted joke.")
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.horizontal)
                     }
-                    .font(.title)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
                 }
-            } else if isLoading {
-                ProgressView("Generating a joke...")
-            } else if let errorMessage = errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .multilineTextAlignment(.center)
-            } else {
-                Text("Tap below to get a light-hearted joke.")
-                    .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
             }
 
             Button("Tell me a Joke") {
@@ -122,8 +138,6 @@ struct SOSRelaxView: View {
                 .font(.footnote)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
-
-            Spacer()
 
             if subscriptionManager.isSubscribed {
                 Text("✅ You are recognized as an SOS Light Supporter. Thank you for your support.")
@@ -268,7 +282,8 @@ struct SubscriptionView: View {
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     
     var body: some View {
-        VStack(spacing: 20) {
+        ScrollView {
+            VStack(spacing: 16) {
             Text("🌟 Support SOS Light")
                   .font(.title2)
                   .fontWeight(.bold)
@@ -277,8 +292,9 @@ struct SubscriptionView: View {
               Text("""
           Our mission with SOS Light is to be a trusted helper in emergencies — bringing key tools into one app to keep people safe, visible, and supported when it matters most.
           """)
-                  .font(.title3)
+                  .font(.body)
                   .multilineTextAlignment(.center)
+                  .fixedSize(horizontal: false, vertical: true)
                   .padding(.horizontal)
               
             
@@ -305,12 +321,6 @@ struct SubscriptionView: View {
                         .font(.headline)
                          .foregroundColor(.red)
                          .bold()
-                    
-
-                    Text("\(priceText(from: product.displayPrice)) per year")
-                        .strikethrough(true, color: .red)
-                        .font(.headline)
-                        .foregroundColor(.green)
                     
                     Text("\(product.displayPrice) per year")
                         .font(.headline)
@@ -363,6 +373,8 @@ struct SubscriptionView: View {
             Button("❌ Close") {
                 isPresented = false
             }
+            }
+            .frame(maxWidth: .infinity)
         }
         .padding()
         .sheet(isPresented: $showingLegalInfo) {
