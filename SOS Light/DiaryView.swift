@@ -130,99 +130,139 @@ struct DiaryView: View {
     @State private var newText: String = ""
     @State private var selectedAngerLevel: String = "Low"
     @State private var showAdsAndAppFunctionality = false
+    @FocusState private var isEditorFocused: Bool
     
     var body: some View {
         ZStack {
-            // Background Gradient
-            LinearGradient(colors: [Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)), .clear], startPoint: .top, endPoint: .bottom)
+            LinearGradient(
+                colors: [Color.black, Color(white: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
                 .ignoresSafeArea()
             
-            VStack {
+            VStack(spacing: 14) {
                 HStack {
+                    Text("SOS DIARY")
+                        .font(.system(size: 32, weight: .black, design: .rounded))
+                        .tracking(1.8)
+                        .foregroundColor(.white)
                     Spacer()
                     Button(action: {
                         showAdsAndAppFunctionality = true
                     }) {
-                        Image(systemName: "questionmark.circle.fill")
-                            .font(.system(size: 30))
+                        Image(systemName: "questionmark.circle")
+                            .font(.system(size: 24, weight: .semibold))
                             .foregroundColor(Color.white)
-                            .padding()
-                            .shadow(color: Color.black.opacity(0.6), radius: 5, x: 0, y: 2)
+                            .padding(10)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.45), lineWidth: 1)
+                            )
                     }
                 }
-                
-                Text("SOS Diary")
-                    .font(.title.bold())
-                    .padding()
-                
-                TextField("Write down your SOS Notes here...", text: $newText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                
+
+                ZStack(alignment: .topLeading) {
+                    if newText.isEmpty {
+                        Text("Write down your SOS Notes here...")
+                            .foregroundColor(.white.opacity(0.6))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 12)
+                    }
+
+                    TextEditor(text: $newText)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 6)
+                        .frame(minHeight: 96, maxHeight: 140)
+                        .focused($isEditorFocused)
+                        .background(Color.clear)
+                }
+                .background(Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                )
+                .cornerRadius(12)
+
                 Picker(selection: $selectedAngerLevel, label: Text("Priority Level")) {
                     Text("Low").tag("Low")
                     Text("Medium").tag("Medium")
                     Text("High").tag("High")
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .padding()
+                .colorScheme(.dark)
                 
-                Button(action: {
-                    saveEntry()
-                    dataStore.saveEntries()
-                }) {
-                    Text("New Entry")
-                        .font(.title2)
-                        .padding()
-                }
-                .frame(width: 233)
-                .background(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-                .cornerRadius(25)
-                .foregroundColor(.black)
-                .padding()
-                .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
-                
-                Button(action: {
-                    dataStore.exportAllEntries()
-                }) {
-                    Text("Export All")
-                        .font(.title2)
-                        .padding()
+                HStack(spacing: 10) {
+                    Button(action: {
+                        isEditorFocused = false
+                        saveEntry()
+                        dataStore.saveEntries()
+                    }) {
+                        Text("New Entry")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(12)
+                    }
                     
-                    
+                    Button(action: {
+                        dataStore.exportAllEntries()
+                    }) {
+                        Text("Export All")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.clear)
+                            .foregroundColor(.white)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.white.opacity(0.8), lineWidth: 1.5)
+                            )
+                            .cornerRadius(12)
+                    }
                 }
-                .frame(width: 233)
-                .background(Color.white)
-                .cornerRadius(25)
-                .foregroundColor(.black)
-                .padding()
-                .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
-                
-            
                 
                 List {
                     ForEach(dataStore.entries) { entry in
                         VStack(alignment: .leading) {
                             Text("\(entry.date, formatter: dateFormatter)")
                                 .font(.headline)
+                                .foregroundColor(.white)
                             Text(entry.text)
                                 .font(.body)
-                                .foregroundColor(Color.gray)
+                                .foregroundColor(.white.opacity(0.86))
                             Text("Priority Level: \(entry.angerLevel)")
                                 .font(.caption)
-                                .foregroundColor(Color.red)
+                                .foregroundColor(.white.opacity(0.75))
                         }
+                        .listRowBackground(Color.white.opacity(0.06))
                     }
                     .onDelete { indexSet in
                         deleteEntry(at: indexSet)
                         dataStore.saveEntries()
                     }
                 }
+                .listStyle(.plain)
+                .background(Color.clear)
             }
             .sheet(isPresented: $showAdsAndAppFunctionality) {
                 ShowExplainView(onConfirm: {
                     showAdsAndAppFunctionality = false
                 })
+            }
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        isEditorFocused = false
+                    }
+                }
+            }
+            .onTapGesture {
+                isEditorFocused = false
             }
             .padding()
             .onDisappear {
@@ -268,141 +308,116 @@ struct ShowExplainView: View {
     var onConfirm: () -> Void
 
     var body: some View {
-        ScrollView {
-            VStack {
-                HStack {
-                    Text("Ads & App Functionality")
-                        .font(.title3.bold())
-                    Spacer()
-                }
-                Divider().background(Color.gray)
-                
-                // Ads Section
-                VStack {
+        ZStack {
+            LinearGradient(
+                colors: [Color.black, Color(white: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 14) {
                     HStack {
-                        Text("Ads")
-                            .font(.largeTitle.bold())
+                        Text("SOS DIARY INFO")
+                            .font(.system(size: 28, weight: .black, design: .rounded))
+                            .tracking(1.5)
+                            .foregroundColor(.white)
                         Spacer()
                     }
-//                    ZStack {
-//                        Image("threedollar")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fill)
-//                            .cornerRadius(25)
-//                            .clipped()
-//                            .onTapGesture {
-//                                if let url = URL(string: "https://b33.biz/three-dollar/") {
-//                                    UIApplication.shared.open(url)
-//                                }
-//                            }
-//                    }
-                    // Ads App Cards
-                    VStack {
-                        Divider().background(Color.gray)
-                        CardView(imageName: "takemedication", appName: "Take Medication", appDescription: "Just press any of the 24 buttons.It's easy, quick, and ensures you never miss a dose!and with a built in medication tracker", appURL: "https://apps.apple.com/id/app/take-medication/id6736924598")
-                        
-                        Divider().background(Color.gray)
-
-                        CardView(imageName: "BST", appName: "Blink Screen Time", appDescription: "Using screens can reduce your blink rate to just 6 blinks per minute, leading to dry eyes and eye strain. Our app helps you maintain a healthy blink rate to prevent these issues and keep your eyes comfortable.", appURL: "https://apps.apple.com/id/app/blink-screen-time/id6587551095")
-                        Divider().background(Color.gray)
-//                        CardView(imageName: "timetell", appName: "TimeTell", appDescription: "Announce the time every 30 seconds, no more guessing and checking your watch, for time-sensitive tasks.", appURL: "https://apps.apple.com/id/app/loopspeak/id6473384030")
-//                        Divider().background(Color.gray)
-//                        CardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Record your voice effortlessly, and play it back in a loop.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
-//                        Divider().background(Color.gray)
-//                        CardView(imageName: "hemorrhoid", appName: "Hemorrhoid", appDescription: " Ideal for individuals who experience hemorrhoids due to prolonged sitting or wish to prevent recurrence after previous episodes.", appURL: "https://apps.apple.com/app/hemorrhoid/id6738301292")
-                        Divider().background(Color.gray)
-                        CardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Made to calm your mind and help you relax before sleep. Includes sleep hypnosis and a sleep tracker to support better rest.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
-//                        Divider().background(Color.gray)
-//                        CardView(imageName: "dryeye", appName: "Dry Eye Read", appDescription: "Read content on screen easily and comfortably without stressing your eyes.", appURL: "https://apps.apple.com/id/app/dry-eye-read/id6449525064")
-//                        Divider().background(Color.gray)
-                       
-                    }
-                }
-                Divider().background(Color.gray)
-                Spacer()
-            }
-            
-            HStack {
-                Text("App Functionality")
-                    .font(.title.bold())
-                Spacer()
-            }
-
-            Text("""
-            SOS Notes Features
-            Log Your SOS Situations
-
-            Quickly Record Situations:
-            Write down details about events or emergencies as they occur.
-            Set Priority Levels:
-            Choose a priority level that reflects the severity of your situation:
-            Low: Minor issues or concerns.
-            Medium: Situations requiring attention but still manageable.
-            High: Critical or emergency scenarios.
-            Add Situation Details:
-            Include specific information such as:
-            What happened?
-            What actions were taken?
-            Where are the locations? Copy them directly from the built-in compass feature.
-            Once done, click the "New Entry" button to save the details.
-            Whether it's a small concern or a serious emergency, SOS Notes helps you stay organized and prepared.
-
-            Automatic Saving
-
-            Every entry is automatically saved with the current date and time, ensuring you can review past situations and track patterns effortlessly.
-
-            Sharing Entries
-
-            When connected to the internet, share your entries with trusted contacts for support or advice.
-
-            Use the "Export" button to send your entry via chat or email, providing necessary context and details to those who can help.
-            
-            Privacy First
-
-            Your SOS Notes entries remain securely stored on your device—nothing is collected or uploaded.
-            We prioritize your privacy, offering a confidential and secure way to manage and reflect on your SOS situations.
-            
-            
-            
-            """)
-            .font(.title3)
-            .multilineTextAlignment(.leading)
-            .padding()
-
-            Spacer()
-
-            HStack {
-                
-       
-                
-                Text("""
-               ❤️ Love SOS Light? Open SOS Relax to learn more.
-            """)
-                    .font(.title3)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                
-//                Text("SOS Light is developed by Three Dollar.")
-//                    .font(.title3.bold())
-                Spacer()
-            }
-            
-            
-            
-            Button("Close") {
-                onConfirm()
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-            .foregroundColor(.black)
-            .font(.title3.bold())
-            .cornerRadius(10)
-            .padding()
-            .shadow(color: Color.white.opacity(12), radius: 3, x: 3, y: 3)
                     
+                    HStack {
+                        Text("Apps")
+                            .font(.title3.bold())
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    
+                    VStack(spacing: 8) {
+                        CardView(imageName: "takemedication", appName: "Take Medication", appDescription: "Just press any of the 24 buttons.It's easy, quick, and ensures you never miss a dose!and with a built in medication tracker", appURL: "https://apps.apple.com/id/app/take-medication/id6736924598")
+                        CardView(imageName: "BST", appName: "Blink Screen Time", appDescription: "Using screens can reduce your blink rate to just 6 blinks per minute, leading to dry eyes and eye strain. Our app helps you maintain a healthy blink rate to prevent these issues and keep your eyes comfortable.", appURL: "https://apps.apple.com/id/app/blink-screen-time/id6587551095")
+                        CardView(imageName: "insomnia", appName: "Insomnia Sheep", appDescription: "Made to calm your mind and help you relax before sleep. Includes sleep hypnosis and a sleep tracker to support better rest.", appURL: "https://apps.apple.com/id/app/insomnia-sheep/id6479727431")
+                    }
+                    .padding()
+                    .background(Color.white.opacity(0.06))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .cornerRadius(12)
+                    
+                    HStack {
+                        Text("App Functionality")
+                            .font(.title3.bold())
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    
+                    Text("""
+                    SOS Notes Features
+                    Log Your SOS Situations
+
+                    Quickly Record Situations:
+                    Write down details about events or emergencies as they occur.
+                    Set Priority Levels:
+                    Choose a priority level that reflects the severity of your situation:
+                    Low: Minor issues or concerns.
+                    Medium: Situations requiring attention but still manageable.
+                    High: Critical or emergency scenarios.
+                    Add Situation Details:
+                    Include specific information such as:
+                    What happened?
+                    What actions were taken?
+                    Where are the locations? Copy them directly from the built-in compass feature.
+                    Once done, click the "New Entry" button to save the details.
+                    Whether it's a small concern or a serious emergency, SOS Notes helps you stay organized and prepared.
+
+                    Automatic Saving
+
+                    Every entry is automatically saved with the current date and time, ensuring you can review past situations and track patterns effortlessly.
+
+                    Sharing Entries
+
+                    When connected to the internet, share your entries with trusted contacts for support or advice.
+
+                    Use the "Export" button to send your entry via chat or email, providing necessary context and details to those who can help.
+                    
+                    Privacy First
+
+                    Your SOS Notes entries remain securely stored on your device—nothing is collected or uploaded.
+                    We prioritize your privacy, offering a confidential and secure way to manage and reflect on your SOS situations.
+                    """)
+                    .font(.body)
+                    .foregroundColor(.white.opacity(0.86))
+                    .multilineTextAlignment(.leading)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.white.opacity(0.06))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .cornerRadius(12)
+                    
+                    Text("Love SOS Light? Open SOS Relax to learn more.")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.86))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                    
+                    Button("Close") {
+                        onConfirm()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .font(.headline.bold())
+                    .cornerRadius(12)
+                }
+                .padding()
+            }
         }
-        .padding()
     }
 }
 
@@ -424,9 +439,10 @@ struct CardView: View {
             VStack(alignment: .leading) {
                 Text(appName)
                     .font(.headline)
+                    .foregroundColor(.white)
                 Text(appDescription)
                     .font(.body)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.white.opacity(0.82))
             }
             Spacer()
             Button(action: {
@@ -437,11 +453,17 @@ struct CardView: View {
                 Text("Get")
                     .font(.subheadline)
                     .padding(8)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
+                    .background(Color.white)
+                    .foregroundColor(.black)
                     .cornerRadius(8)
             }
         }
-        .padding(.vertical, 4)
+        .padding(10)
+        .background(Color.white.opacity(0.06))
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+        )
+        .cornerRadius(10)
     }
 }

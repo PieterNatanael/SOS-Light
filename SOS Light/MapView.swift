@@ -26,18 +26,15 @@ struct MapView: View {
     @State private var showingUserLocation = true
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            // The Map itself, showing user's location
+        ZStack(alignment: .top) {
             Map(coordinateRegion: $region, showsUserLocation: true)
                 .gesture(
-                    // When user drags the map, stop auto-centering
                     DragGesture().onChanged { _ in
                         isUserDragging = true
                         showingUserLocation = false
                     }
                 )
                 .onReceive(mapManager.$lastLocation) { location in
-                    // Auto-center the map only if user hasn’t dragged
                     if let location = location, showingUserLocation {
                         region = MKCoordinateRegion(
                             center: location.coordinate,
@@ -45,27 +42,47 @@ struct MapView: View {
                         )
                     }
                 }
-                .edgesIgnoringSafeArea(.top) // extend behind the status bar only
-
-            // "Center on Me" Button
-            Button(action: {
-                if let location = mapManager.lastLocation {
-                    region = MKCoordinateRegion(
-                        center: location.coordinate,
-                        span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                .overlay(
+                    LinearGradient(
+                        colors: [Color.black.opacity(0.45), .clear],
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
-                    showingUserLocation = true
-                    isUserDragging = false
+                    .frame(height: 130),
+                    alignment: .top
+                )
+                .ignoresSafeArea(edges: .top)
+
+            VStack {
+                HStack {
+                    Text("MAP")
+                        .font(.system(size: 24, weight: .black, design: .rounded))
+                        .tracking(1.5)
+                        .foregroundColor(.white)
+                    Spacer()
+                    Button(action: {
+                        if let location = mapManager.lastLocation {
+                            region = MKCoordinateRegion(
+                                center: location.coordinate,
+                                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                            )
+                            showingUserLocation = true
+                            isUserDragging = false
+                        }
+                    }) {
+                        Image(systemName: "location.fill")
+                            .font(.headline)
+                            .padding(12)
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 3)
+                    }
                 }
-            }) {
-                Image(systemName: "location.fill")
-                    .padding()
-                    .background(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-                    .clipShape(Circle())
-                    .shadow(radius: 5)
+                .padding(.horizontal, 16)
+                .padding(.top, 10)
+                Spacer()
             }
-            .padding(.bottom, 70) // raised above tab bar
-            .padding(.trailing, 20)
         }
     }
 }

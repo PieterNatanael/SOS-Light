@@ -16,66 +16,95 @@ struct ContentView: View {
     @State private var flashTimer: Timer?
     @State private var screenColor: Color = .black
     @State private var isSoundOn = false // State for sound toggle
+    @State private var pulse = false
     //check if the github work
     let morseDot: [Bool] = [true]
     let morseDash: [Bool] = [true, true, true]
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(spacing: 28) {
                 HStack {
+                    Text("SOS LIGHT")
+                        .font(.system(size: 32, weight: .black, design: .rounded))
+                        .foregroundColor(screenColor == .white ? .black : .white)
+                        .tracking(2)
                     Spacer()
                     Button(action: {
                         showAdsAndAppFunctionality = true
                     }) {
-                        Image(systemName: "questionmark.circle.fill")
-                            .font(.system(size: 30))
-                            .foregroundColor(Color(.white))
-                            .padding()
-                            .shadow(color: Color.black.opacity(0.6), radius: 5, x: 0, y: 2)
+                        Image(systemName: "questionmark.circle")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundColor(screenColor == .white ? .black : .white)
+                            .padding(10)
+                            .overlay(
+                                Circle()
+                                    .stroke(screenColor == .white ? Color.black.opacity(0.5) : Color.white.opacity(0.45), lineWidth: 1)
+                            )
                     }
                 }
-                Text("SOS Light")
-                    .font(.largeTitle.bold())
-                    .foregroundColor(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-                    .padding()
-                
-                Spacer()
-                
-    
-                
-                if isSOSActive {
-                    Text("SOS Active")
-                        .font(.title)
-                        .foregroundColor(.red)
-                        .padding()
-                } else {
-                    Text("SOS Inactive")
-                        .font(.title)
-                        .foregroundColor(.gray)
-                        .padding()
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                    isSOSActive.toggle()
-                    if isSOSActive {
-                        startSOS()
-                    } else {
-                        stopSOS()
+                .padding(.top, geometry.safeAreaInsets.top + 8)
+
+                VStack(spacing: 10) {
+                    Text(isSOSActive ? "BROADCASTING" : "STANDBY")
+                        .font(.system(size: 13, weight: .bold, design: .monospaced))
+                        .tracking(1.2)
+                        .foregroundColor(screenColor == .white ? .black.opacity(0.8) : .white.opacity(0.8))
+
+                    HStack(spacing: 10) {
+                        Circle()
+                            .fill(screenColor == .white ? Color.black : Color.white)
+                            .frame(width: 8, height: 8)
+                            .opacity(isSOSActive ? (pulse ? 0.25 : 1.0) : 0.35)
+
+                        Text(isSOSActive ? "SOS ACTIVE" : "SOS INACTIVE")
+                            .font(.system(size: 24, weight: .bold, design: .rounded))
+                            .foregroundColor(screenColor == .white ? .black : .white)
                     }
-                }) {
-                    Text(isSOSActive ? "Stop SOS" : "Start SOS")
-                        .font(.title)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(isSOSActive ? Color.red : Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-                        .foregroundColor(.black)
-                        .cornerRadius(10)
-                    
                 }
-                .padding()
+
+                ZStack {
+                    Circle()
+                        .stroke(screenColor == .white ? Color.black.opacity(0.2) : Color.white.opacity(0.2), lineWidth: 1)
+                        .frame(width: 240, height: 240)
+
+                    Circle()
+                        .stroke(screenColor == .white ? Color.black.opacity(0.35) : Color.white.opacity(0.35), lineWidth: 2)
+                        .frame(width: 210, height: 210)
+                        .scaleEffect(isSOSActive && pulse ? 1.08 : 1.0)
+                        .opacity(isSOSActive ? 1 : 0.5)
+                        .animation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true), value: pulse)
+
+                    Button(action: {
+                        isSOSActive.toggle()
+                        if isSOSActive {
+                            startSOS()
+                        } else {
+                            stopSOS()
+                        }
+                    }) {
+                        Text(isSOSActive ? "STOP SOS" : "START SOS")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                            .tracking(1)
+                            .frame(width: 170, height: 170)
+                            .background(screenColor == .white ? Color.black : Color.white)
+                            .foregroundColor(screenColor == .white ? .white : .black)
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(screenColor == .white ? Color.black : Color.white, lineWidth: 2)
+                            )
+                    }
+                    .shadow(color: (screenColor == .white ? Color.black : Color.white).opacity(0.15), radius: 12, x: 0, y: 6)
+                }
+
+                Text("Tap once to send the SOS signal pattern with flash + screen.")
+                    .font(.footnote)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(screenColor == .white ? .black.opacity(0.7) : .white.opacity(0.7))
+                    .padding(.horizontal)
+                
+                Spacer(minLength: 10)
 //                Text("❤️ Love SOS Light? Open SOS Relax to learn more")
 //                    .font(.footnote)
 //                    .multilineTextAlignment(.center)
@@ -83,12 +112,16 @@ struct ContentView: View {
 //                    .padding()
                 
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .padding(.horizontal, 22)
             .background(screenColor.edgesIgnoringSafeArea(.all))
             .sheet(isPresented: $showAdsAndAppFunctionality) {
                 ShowAdsAndAppFunctionalityView(isSoundOn: $isSoundOn, onConfirm: {
                     showAdsAndAppFunctionality = false
                 })
+            }
+            .onAppear {
+                pulse = true
             }
         }
     }
@@ -162,29 +195,45 @@ struct ShowAdsAndAppFunctionalityView: View {
     var onConfirm: () -> Void
 
     var body: some View {
-        ScrollView {
-            VStack {
-                
-                // Sound toggle inside the question mark sheet
-                HStack {
-                    Text("SOS Sound")
-                        .font(.title.bold())
-                    Spacer()
-                    Toggle("Sound", isOn: $isSoundOn)
-                        .labelsHidden()
-                }
-                .padding()
-                HStack {
-                    Text("Ads & App Functionality")
-                        .font(.title2.bold())
-                    Spacer()
-                }
-                Divider().background(Color.gray)
-                
-                VStack {
+        ZStack {
+            LinearGradient(
+                colors: [Color.black, Color(white: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 14) {
                     HStack {
-                        Text("Apps for you")
-                            .font(.title.bold())
+                        Text("SOS INFO")
+                            .font(.system(size: 30, weight: .black, design: .rounded))
+                            .tracking(1.5)
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+
+                    HStack {
+                        Text("SOS Sound")
+                            .font(.headline.bold())
+                            .foregroundColor(.white)
+                        Spacer()
+                        Toggle("Sound", isOn: $isSoundOn)
+                            .labelsHidden()
+                            .toggleStyle(SwitchToggleStyle(tint: .white))
+                    }
+                    .padding()
+                    .background(Color.white.opacity(0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .cornerRadius(12)
+
+                    HStack {
+                        Text("Apps for You")
+                            .font(.title3.bold())
+                            .foregroundColor(.white)
                         Spacer()
                     }
 //                    ZStack {
@@ -199,7 +248,7 @@ struct ShowAdsAndAppFunctionalityView: View {
 //                                }
 //                            }
 //                    }
-                    VStack {
+                    VStack(spacing: 8) {
 //                        Divider().background(Color.gray)
 //                        AppCardView(imageName: "loopspeak", appName: "LOOPSpeak", appDescription: "Why read when you can learn by listening? Easily adjust the playback speed.", appURL: "https://apps.apple.com/id/app/loopspeak/id6473384030")
 //                        
@@ -208,73 +257,74 @@ struct ShowAdsAndAppFunctionalityView: View {
 //                        
 //                        Divider().background(Color.gray)
 //                        AppCardView(imageName: "bodycam", appName: "BODYCam", appDescription: "Record long videos effortlessly.", appURL: "https://apps.apple.com/id/app/b0dycam/id6496689003")
-                        Divider().background(Color.gray)
                         AppCardView(imageName: "timetell", appName: "TimeTell", appDescription: "Tells the time every 30 seconds — for mindfulness, timeboxing, ADHD focus, workouts, and more", appURL: "https://apps.apple.com/app/time-tell/id6479016269")
-                        Divider().background(Color.gray)
                         AppCardView(imageName: "SingLoop", appName: "Sing LOOP", appDescription: "Sing Loop lets you record your voice and play it back in a loop—great for practicing, layering, and enjoying your own voice. Sing, experiment with melodies, and get creative.", appURL: "https://apps.apple.com/id/app/sing-l00p/id6480459464")
-                       
-                        Divider().background(Color.gray)
-
-                        Divider().background(Color.gray)
                         AppCardView(imageName: "iprogram", appName: "iProgramMe", appDescription: "Custom affirmations.", appURL: "https://apps.apple.com/id/app/iprogramme/id6470770935")
-                        Divider().background(Color.gray)
-                 
-                      
                     }
-                    Spacer()
-                }
-                .padding()
-                .cornerRadius(15.0)
+                    .padding()
+                    .background(Color.white.opacity(0.06))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .cornerRadius(12)
 
-              
+                    HStack {
+                        Text("App Functionality")
+                            .font(.title3.bold())
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
 
-                HStack {
-                    Text("App Functionality")
-                        .font(.title.bold())
-                    Spacer()
-                }
+                    Text(
+    """
+       • Press 'Start SOS' to activate the SOS signal.
+       • The screen and flash will blink in SOS pattern (three short signals, three long signals, and three short signals again).
+       • Press 'Stop SOS' to deactivate the signal and stop the blinking.
+      
+    """)
+                    .font(.body)
+                    .foregroundColor(.white.opacity(0.86))
+                    .multilineTextAlignment(.leading)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.white.opacity(0.06))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .cornerRadius(12)
 
-                Text(
-"""
-   • Press 'Start SOS' to activate the SOS signal.
-   • The screen and flash will blink in SOS pattern (three short signals, three long signals, and three short signals again).
-   • Press 'Stop SOS' to deactivate the signal and stop the blinking.
-  
-""")
-                .font(.title2)
-                .multilineTextAlignment(.leading)
-                .padding()
-
-                Spacer()
 //                
 //                Our mission with SOS Light is to be a trusted helper in emergencies — bringing key tools into one app to keep people safe, visible, and supported when it matters most.
 
-                HStack {
-                    
+                    HStack {
                     Text("""
-                   ❤️ Love SOS Light? Open SOS Relax to learn more.
+                       Love SOS Light? Open SOS Relax to learn more.
                 """)
-                        .font(.title3)
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.86))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
-                    
+
 //                    Text("SOS Light is developed by Three Dollar.")
 //                        .font(.title3.bold())
 //                    Spacer()
-                }
+                    }
 
-                Button("Close") {
-                    onConfirm()
+                    Button("Close") {
+                        onConfirm()
+                    }
+                    .font(.headline.bold())
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .cornerRadius(12)
+                    .padding(.top, 4)
                 }
-                .font(.title3.bold())
-                .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-                .foregroundColor(.black)
-                .cornerRadius(10)
-                .padding(.vertical, 10)
             }
-            .padding()
         }
     }
 }
@@ -292,13 +342,14 @@ struct AppCardView: View {
                     .resizable()
                     .frame(width: 50, height: 50)
                     .cornerRadius(10)
-                    .shadow(radius: 5)
+                    .shadow(color: .black.opacity(0.35), radius: 5)
                 VStack(alignment: .leading) {
                     Text(appName)
-                        .font(.title.bold())
+                        .font(.headline.bold())
+                        .foregroundColor(.white)
                     Text(appDescription)
-                        .font(.title2)
-                        
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.82))
                 }
                 Spacer()
             }
@@ -308,7 +359,13 @@ struct AppCardView: View {
                 }
             }
         }
-        .padding(.vertical, 5)
+        .padding(10)
+        .background(Color.white.opacity(0.06))
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+        )
+        .cornerRadius(10)
     }
 }
 

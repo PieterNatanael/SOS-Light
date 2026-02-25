@@ -15,93 +15,116 @@ struct DirectionView: View {
     @State private var showMap = false // This state controls the visibility of the map
     
     var body: some View {
-        VStack(spacing: 30) {
-            if !showMap { // Only show the rest of the UI if map is not visible
-                Spacer()
-                
-                // Rotating arrow based on compass and saved location
-                Image(systemName: "location.north.fill")
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .rotationEffect(Angle(degrees: locationHandler.arrowRotation))
-                    .foregroundColor(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-                    .animation(.easeInOut, value: locationHandler.arrowRotation)
-                
-                // Distance to target
-                Text("Distance: \(locationHandler.distanceText)")
-                    .font(.headline)
-                
-                Spacer()
-                
-                // Save current location button (Disabled when locked)
-                Button(action: {
-                    if !isLocationLocked {
-                        locationHandler.saveCurrentLocation()
-                    }
-                }) {
-                    Text(isLocationLocked ? "Location Locked" : "Save My Location")
-                        .padding()
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .background(isLocationLocked ? Color.gray : Color.green)
-                        .foregroundColor(.black)
-                        .cornerRadius(10)
-                }
-                .disabled(isLocationLocked)
-                
-                // Lock/Unlock button
-                Button(action: {
-                    isLocationLocked.toggle()
-                }) {
-                    Text(isLocationLocked ? "Unlock Location" : "Lock Location")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(isLocationLocked ? Color.red : Color.blue)
+        ZStack {
+            LinearGradient(
+                colors: [Color.black, Color(white: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 18) {
+                if !showMap { // Only show the rest of the UI if map is not visible
+                    Text("DIRECTION")
+                        .font(.system(size: 34, weight: .black, design: .rounded))
+                        .tracking(2)
                         .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                
-                // Button to toggle the map visibility
-                Button(action: {
-                    showMap.toggle()
-                }) {
-                    Text(showMap ? "Hide Map" : "Show Map")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                
-                Text("Arrow works offline. It guides you back to the saved location.")
-                    .font(.footnote)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-            }
-            
-            // Show the MapView in full-screen if `showMap` is true
-            if showMap {
-                VStack {
-                    // Back button to return to the previous screen
-                    Button(action: {
-                        showMap.toggle()
-                    }) {
-                        Text("Back")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.red)
+
+                    ZStack {
+                        Circle()
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                            .frame(width: 190, height: 190)
+
+                        Image(systemName: "location.north.fill")
+                            .resizable()
+                            .frame(width: 92, height: 92)
+                            .rotationEffect(Angle(degrees: locationHandler.arrowRotation))
                             .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding(.top)
+                            .animation(.easeInOut, value: locationHandler.arrowRotation)
                     }
                     
-                    // MapView itself (replace with your MapView)
-                    MapView() // Adjust to your full-screen MapView
-                        .edgesIgnoringSafeArea(.all) // Make the map cover the whole screen
+                    Text("Distance: \(locationHandler.distanceText)")
+                        .font(.headline)
+                        .foregroundColor(.white.opacity(0.9))
+                    
+                    VStack(spacing: 10) {
+                        Button(action: {
+                            if !isLocationLocked {
+                                locationHandler.saveCurrentLocation()
+                            }
+                        }) {
+                            Text(isLocationLocked ? "Location Locked" : "Save My Location")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white)
+                                .foregroundColor(.black)
+                                .cornerRadius(12)
+                        }
+                        .disabled(isLocationLocked)
+                        
+                        Button(action: {
+                            isLocationLocked.toggle()
+                        }) {
+                            Text(isLocationLocked ? "Unlock Location" : "Lock Location")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.clear)
+                                .foregroundColor(.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.white.opacity(0.8), lineWidth: 1.5)
+                                )
+                                .cornerRadius(12)
+                        }
+                        
+                        Button(action: {
+                            showMap.toggle()
+                        }) {
+                            Text("Show Map")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white.opacity(0.08))
+                                .foregroundColor(.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.white.opacity(0.35), lineWidth: 1)
+                                )
+                                .cornerRadius(12)
+                        }
+                    }
+                    
+                    Text("Arrow works offline. It guides you back to the saved location.")
+                        .font(.footnote)
+                        .foregroundColor(.white.opacity(0.75))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                
+                if showMap {
+                    VStack(spacing: 12) {
+                        Button(action: {
+                            showMap.toggle()
+                        }) {
+                            Text("Back")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white)
+                                .foregroundColor(.black)
+                                .cornerRadius(12)
+                        }
+                        .padding(.top, 8)
+                        
+                        MapView()
+                            .cornerRadius(12)
+                    }
                 }
             }
+            .padding()
         }
-        .padding()
         .onAppear {
             locationHandler.start()
         }

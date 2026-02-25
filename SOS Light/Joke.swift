@@ -65,105 +65,129 @@ struct SOSRelaxView: View {
 //    SwiftUI uses if, else, etc. inside the body to show different views based on state.
 //    
     var body: some View {
-        VStack(spacing: 16) {
-            Text("SOS Relax")
-                .font(.largeTitle)
-                .bold()
+        ZStack {
+            LinearGradient(
+                colors: [Color.black, Color(white: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-            ScrollView {
-                VStack(spacing: 12) {
-                    if let joke = joke {
-                        Text(joke.setup)
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.horizontal)
+            VStack(spacing: 16) {
+                Text("SOS RELAX")
+                    .font(.system(size: 34, weight: .black, design: .rounded))
+                    .tracking(2)
+                    .foregroundColor(.white)
 
-                        if showPunchline {
-                            Text(joke.punchline)
-                                .font(.body.bold())
-                                .foregroundColor(.gray)
+                ScrollView {
+                    VStack(spacing: 12) {
+                        if let joke = joke {
+                            Text(joke.setup)
+                                .font(.title3.weight(.semibold))
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.horizontal)
+
+                            if showPunchline {
+                                Text(joke.punchline)
+                                    .font(.body.bold())
+                                    .foregroundColor(.white.opacity(0.86))
+                                    .multilineTextAlignment(.center)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .padding(.horizontal)
+                            } else {
+                                Button("Show Answer") {
+                                    showPunchline = true
+                                }
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white)
+                                .foregroundColor(.black)
+                                .cornerRadius(12)
+                                .padding(.horizontal)
+                            }
+                        } else if isLoading {
+                            ProgressView("Generating a joke...")
+                                .tint(.white)
+                                .foregroundColor(.white)
+                                .padding(.vertical, 8)
+                        } else if let errorMessage = errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.horizontal)
                         } else {
-                            Button("Show Answer") {
-                                showPunchline = true
-                            }
-                            .font(.title3)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding(.horizontal)
+                            Text("Tap below to get a light-hearted joke.")
+                                .foregroundColor(.white.opacity(0.86))
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.horizontal)
                         }
-                    } else if isLoading {
-                        ProgressView("Generating a joke...")
-                            .padding(.vertical, 8)
-                    } else if let errorMessage = errorMessage {
-                        Text(errorMessage)
-                            .foregroundColor(.red)
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.horizontal)
-                    } else {
-                        Text("Tap below to get a light-hearted joke.")
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.horizontal)
+                    }
+                    .padding(.vertical, 14)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white.opacity(0.06))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .cornerRadius(16)
+                }
+
+                Button("Tell me a Joke") {
+                    Task {
+                        await fetchJokeIfAllowed()
                     }
                 }
+                .font(.system(size: 20, weight: .bold, design: .rounded))
                 .frame(maxWidth: .infinity)
-            }
+                .padding()
+                .background(Color.white)
+                .foregroundColor(.black)
+                .cornerRadius(14)
+                .disabled(isLoading)
+                
+                Text("In emergencies, try to stay calm, cool, and relaxed. Don’t panic.")
+                    .font(.footnote)
+                    .foregroundColor(.white.opacity(0.75))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
 
-            Button("Tell me a Joke") {
-                Task {
-                    await fetchJokeIfAllowed()
+                if subscriptionManager.isSubscribed {
+                    Text("You are recognized as an SOS Light Supporter. Thank you.")
+                        .foregroundColor(.white.opacity(0.9))
+                        .font(.footnote)
+                        .multilineTextAlignment(.center)
+                }
+
+                Button(action: {
+                    showingSheet = true
+                }) {
+                    Text("Love SOS Light?")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.clear)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.white.opacity(0.8), lineWidth: 1.5)
+                        )
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                        .padding(.bottom, 10)
                 }
             }
-            .font(.title)
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-            .foregroundColor(.black)
-            .cornerRadius(10)
-            .disabled(isLoading)
-            
-            Text("In emergencies, try to stay calm, cool, and relaxed. Don’t panic.")
-                .font(.footnote)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-
-            if subscriptionManager.isSubscribed {
-                Text("✅ You are recognized as an SOS Light Supporter. Thank you for your support.")
-                    .foregroundColor(.green)
-                    .font(.footnote)
-            }
-
-            Button(action: {
-                showingSheet = true
-            }) {
-                Text("❤️ Love SOS Light?")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.red)
-                    .cornerRadius(12)
-                    .shadow(radius: 4)
-                    .padding(.horizontal)
-                    .padding(.bottom, 10)
-            }
-
-
-            
+            .padding(.horizontal, 18)
+            .padding(.vertical)
         }
-        .padding()
         
         
 //        .sheet(isPresented:) shows the subscription screen
@@ -282,101 +306,155 @@ struct SubscriptionView: View {
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-            Text("🌟 Support SOS Light")
-                  .font(.title2)
-                  .fontWeight(.bold)
-                  .multilineTextAlignment(.center)
+        ZStack {
+            LinearGradient(
+                colors: [Color.black, Color(white: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-              Text("""
-          Our mission with SOS Light is to be a trusted helper in emergencies — bringing key tools into one app to keep people safe, visible, and supported when it matters most.
-          """)
-                  .font(.body)
-                  .multilineTextAlignment(.center)
-                  .fixedSize(horizontal: false, vertical: true)
-                  .padding(.horizontal)
-              
-            
-            if subscriptionManager.isLoading {
-                ProgressView("Loading...")
-            } else if let errorMessage = subscriptionManager.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .multilineTextAlignment(.center)
-                    .padding()
-            }
-            
-            if !subscriptionManager.products.isEmpty, let product = subscriptionManager.products.first {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("SOS Light Full Version")
-                        .font(.headline)
-                        .padding(.top)
-                    
-                    Text("Full access to all features to stay ready in emergency.")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    
-                    Text("Limited Time Offer!")
-                        .font(.headline)
-                         .foregroundColor(.red)
-                         .bold()
-                    
-                    Text("\(product.displayPrice) per year")
-                        .font(.headline)
-                        .foregroundColor(.green)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-            } else {
-                Text("Full Version to stay ready in emergency.")
-                    .multilineTextAlignment(.center)
-                
-                
-                
+            ScrollView {
+                VStack(spacing: 14) {
+                    Text("SUPPORT SOS LIGHT")
+                        .font(.system(size: 30, weight: .black, design: .rounded))
+                        .tracking(1.6)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
 
-            }
-            
-            Button(action: {
-                Task {
-                    await subscriptionManager.purchase()
-                }
-            }) {
-                Text(subscriptionManager.isSubscribed ? "Subscribed ✅" : "Subscribe")
+                    Text("""
+                    Our mission with SOS Light is to be a trusted helper in emergencies, bringing key tools into one app to keep people safe, visible, and supported when it matters most.
+                    """)
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white.opacity(0.86))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal)
+                    
+                    if subscriptionManager.isLoading {
+                        ProgressView("Loading...")
+                            .tint(.white)
+                            .foregroundColor(.white)
+                    } else if let errorMessage = subscriptionManager.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                    }
+                    
+                    if !subscriptionManager.products.isEmpty, let product = subscriptionManager.products.first {
+                        
+                        VStack(alignment: .leading, spacing: 10) {
+                            
+                            Text("SOS Light Full Version: Unlimited SOS Relax jokes")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            
+                            Text("Removes the 3 jokes per day limit.")
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.9))
+                            
+                            Text("Free: up to 3 jokes per day")
+                                .font(.footnote)
+                                .foregroundColor(.white.opacity(0.75))
+                            
+                            Text("Full Version: unlimited jokes")
+                                .font(.footnote)
+                                .foregroundColor(.white.opacity(0.75))
+                            
+                            Text("\(product.displayPrice) per year")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(.top, 6)
+                            
+                            Text("Auto-renews yearly unless cancelled at least 24 hours before renewal.")
+                                .font(.footnote)
+                                .foregroundColor(.white.opacity(0.7))
+                                .fixedSize(horizontal: false, vertical: true)
+                            
+                            Text("Payment will be charged to your Apple ID. Manage or cancel anytime in App Store Settings.")
+                                .font(.footnote)
+                                .foregroundColor(.white.opacity(0.7))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(Color.white.opacity(0.06))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                        )
+                        .cornerRadius(12)
+                    } else {
+                        Text("Full Version to stay ready in emergency.")
+                            .foregroundColor(.white.opacity(0.86))
+                            .multilineTextAlignment(.center)
+                    }
+                    
+                    Button(action: {
+                        Task {
+                            await subscriptionManager.purchase()
+                        }
+                    }) {
+                        Text(subscriptionManager.isSubscribed ? "Subscribed" : "Subscribe")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(subscriptionManager.isSubscribed ? Color.white.opacity(0.35) : Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(12)
+                    }
+                    .disabled(subscriptionManager.isSubscribed || subscriptionManager.isLoading)
+                    
+                    Button("Restore Purchase") {
+                        Task {
+                            await subscriptionManager.restorePurchases()
+                        }
+                    }
+                    .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(subscriptionManager.isSubscribed ? Color.gray : Color.blue)
+                    .background(Color.clear)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            .disabled(subscriptionManager.isSubscribed || subscriptionManager.isLoading)
-            
-            Button("🔁 Restore Purchase") {
-                Task {
-                    await subscriptionManager.restorePurchases()
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.8), lineWidth: 1.5)
+                    )
+                    .cornerRadius(12)
+                    .disabled(subscriptionManager.isLoading)
+                    
+                    Button("Privacy Policy & Terms of Use") {
+                        showingLegalInfo = true
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.white.opacity(0.9))
+                    
+                    Button("Rate on App Store") {
+                        if let url = URL(string: "https://apps.apple.com/app/6504213303?action=write-review") {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.white.opacity(0.9))
+                    
+                    Button("Close") {
+                        isPresented = false
+                    }
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.clear)
+                    .foregroundColor(.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                    )
+                    .cornerRadius(12)
                 }
+                .padding(.horizontal, 18)
+                .padding(.vertical)
             }
-            .disabled(subscriptionManager.isLoading)
-            
-            Button("📜 Privacy Policy & Terms of Use") {
-                showingLegalInfo = true
-            }
-            
-            Button("🌟 Rate on App Store") {
-                if let url = URL(string: "https://apps.apple.com/app/6504213303?action=write-review") {
-                    UIApplication.shared.open(url)
-                }
-            }
-            
-            Button("❌ Close") {
-                isPresented = false
-            }
-            }
-            .frame(maxWidth: .infinity)
         }
-        .padding()
         .sheet(isPresented: $showingLegalInfo) {
             LegalInfoView(isPresented: $showingLegalInfo)
         }
@@ -408,52 +486,78 @@ struct LegalInfoView: View {
     @Binding var isPresented: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("Privacy Policy")
-                .font(.title2)
-                .bold()
-            
-            ScrollView {
-                Text("""
-                SOS Light does not collect, store, or track any personal information. All your data stays on your device. Your subscription is securely managed via your Apple ID and App Store account.
-                """)
-                .font(.body)
-                .padding(.bottom)
+        ZStack {
+            LinearGradient(
+                colors: [Color.black, Color(white: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            VStack(alignment: .leading, spacing: 14) {
+                Text("PRIVACY & TERMS")
+                    .font(.system(size: 30, weight: .black, design: .rounded))
+                    .tracking(1.5)
+                    .foregroundColor(.white)
                 
-                Text("Terms of Use (EULA)")
-                    .font(.title2)
-                    .bold()
-                    .padding(.top)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Privacy Policy")
+                            .font(.title3.bold())
+                            .foregroundColor(.white)
+
+                        Text("""
+                        SOS Light does not collect, store, or track any personal information. All your data stays on your device. Your subscription is securely managed via your Apple ID and App Store account.
+                        """)
+                        .font(.body)
+                        .foregroundColor(.white.opacity(0.86))
+
+                        Text("Terms of Use (EULA)")
+                            .font(.title3.bold())
+                            .foregroundColor(.white)
+                            .padding(.top, 4)
+
+                        Text("""
+                        By using SOS Light, you agree to the terms of this End User License Agreement (EULA). This app is licensed to you, not sold. Your use of SOS Light is also governed by Apple's standard EULA, which can be found at:
+                        https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+                        
+                        1. **License**: You are granted a non-transferable license to use SOS Light on Apple-branded devices that you own or control.
+                        
+                        2. **Subscription**: Full access is available with an annual subscription. Your subscription renews automatically unless canceled 24 hours before the end of the billing period.
+                        
+                        3. **Restrictions**: You may not copy, modify, or reverse-engineer the app. This app is provided "as is" without warranties of any kind.
+                        
+                        4. **Termination**: Violation of these terms may result in termination of your license.
+                        
+                        5. **Support**: We offer best-effort support, but do not guarantee availability or uptime.
+                        
+                        This agreement is governed by the laws of your country of residence.
+                        """)
+                        .font(.body)
+                        .foregroundColor(.white.opacity(0.86))
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.white.opacity(0.06))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .cornerRadius(12)
+                }
                 
-                Text("""
-                By using SOS Light, you agree to the terms of this End User License Agreement (EULA). This app is licensed to you, not sold. Your use of SOS Light is also governed by Apple's standard EULA, which can be found at:
-                https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
-                
-                1. **License**: You are granted a non-transferable license to use SOS Light on Apple-branded devices that you own or control.
-                
-                2. **Subscription**: Full access is available with an annual subscription. Your subscription renews automatically unless canceled 24 hours before the end of the billing period.
-                
-                3. **Restrictions**: You may not copy, modify, or reverse-engineer the app. This app is provided "as is" without warranties of any kind.
-                
-                4. **Termination**: Violation of these terms may result in termination of your license.
-                
-                5. **Support**: We offer best-effort support, but do not guarantee availability or uptime.
-                
-                This agreement is governed by the laws of your country of residence.
-                """)
-                .font(.body)
+                Button("Close") {
+                    isPresented = false
+                }
+                .font(.headline.bold())
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.white)
+                .foregroundColor(.black)
+                .cornerRadius(12)
             }
-            
-            Button("❌ Close") {
-                isPresented = false
-            }
-            .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
         }
-        .padding()
     }
 }
 

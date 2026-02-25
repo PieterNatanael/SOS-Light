@@ -7,9 +7,26 @@
 
 import SwiftUI
 import CoreLocation
+import UIKit
 
 struct MainAppView: View {
     @State private var selectedTab = 0
+    
+    init() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .black
+
+        let normalColor = UIColor(white: 0.65, alpha: 1.0)
+        appearance.stackedLayoutAppearance.normal.iconColor = normalColor
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: normalColor]
+        appearance.stackedLayoutAppearance.selected.iconColor = .white
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.white]
+
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+        UITabBar.appearance().isTranslucent = false
+    }
     
     var body: some View {
         TabView(selection: $selectedTab) {

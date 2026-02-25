@@ -9,6 +9,7 @@
 import SwiftUI
 import CoreLocation
 
+
 class LocationManager: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     private let geocoder = CLGeocoder()
@@ -118,113 +119,106 @@ struct CompassView: View {
     @State private var isCopied = false
     
     var body: some View {
-        VStack {
-            Spacer()
-            ZStack {
-                // Compass outer circle with gradient stroke
-                Circle()
-                    .stroke(
-                        AngularGradient(
-                            gradient: Gradient(colors: [.gray.opacity(0.3), .gray.opacity(0.6)]),
-                            center: .center
-                        ),
-                        lineWidth: 2
-                    )
-                    .frame(width: 250, height: 250)
-                    .shadow(color: .black.opacity(0.1), radius: 5)
+        ZStack {
+            LinearGradient(
+                colors: [Color.black, Color(white: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-                // Compass markings (Major and Minor)
-                ForEach(0..<360, id: \.self) { degree in
-                    if degree % 15 == 0 {
-                        CompassMarkView(degree: Double(degree), currentHeading: locationManager.heading)
+            ScrollView {
+                VStack(spacing: 18) {
+                    Text("COMPASS")
+                        .font(.system(size: 34, weight: .black, design: .rounded))
+                        .tracking(2)
+                        .foregroundColor(.white)
+
+                    ZStack {
+                        Circle()
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                            .frame(width: 250, height: 250)
+
+                        ForEach(0..<360, id: \.self) { degree in
+                            if degree % 15 == 0 {
+                                CompassMarkView(degree: Double(degree), currentHeading: locationManager.heading)
+                            }
+                        }
+
+                        Circle()
+                            .stroke(Color.white.opacity(0.45), lineWidth: 2)
+                            .frame(width: 260, height: 260)
+                            .rotationEffect(Angle(degrees: locationManager.heading))
+                            .animation(.easeInOut(duration: 1), value: locationManager.heading)
+
+                        Image(systemName: "location.north.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.white)
+                            .rotationEffect(Angle(degrees: -locationManager.heading))
                     }
-                }
-
-                // Highlight current heading with a glowing ring
-                Circle()
-                    .stroke(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)), lineWidth: 3)
-                    .frame(width: 260, height: 260)
-                    .opacity(locationManager.heading == 0 ? 0.5 : 0.2)  // Adjust opacity for better view
-                    .blur(radius: locationManager.heading == 0 ? 5 : 0) // Add subtle glow effect
                     .rotationEffect(Angle(degrees: locationManager.heading))
-                    .animation(.easeInOut(duration: 1), value: locationManager.heading)
 
-                // Stylish compass arrow
-                ZStack {
-//                    Circle()
-//                        .fill(Color.white)
-//                        .frame(width: 50, height: 50)
-//                        .shadow(radius: 2)
+                    Text("Current Heading: \(Int(locationManager.heading))°")
+                        .font(.headline)
+                        .foregroundColor(.white.opacity(0.9))
 
-                    Image(systemName: "location.north.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-                        .rotationEffect(Angle(degrees: -locationManager.heading))
-                }
-            }
-            .rotationEffect(Angle(degrees: locationManager.heading))
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Image(systemName: "mappin.circle")
+                            Text(locationManager.placeName)
+                                .fontWeight(.bold)
+                        }
+                        
+                        HStack {
+                            Image(systemName: "arrow.up.and.down.circle")
+                            Text("Altitude: \(String(format: "%.1f", locationManager.altitude)) m")
+                        }
+                        
+                        if let coords = locationManager.coordinates {
+                            HStack {
+                                Image(systemName: "map")
+                                Text("Coordinates:")
+                                Text(coordinatesString(coords))
+                                    .fontWeight(.bold)
+                            }
+                        }
+                        
+                        HStack {
+                            Image(systemName: "location.circle")
+                            Text("Accuracy: \(String(format: "%.1f", locationManager.accuracy)) m")
+                                .foregroundColor(accuracyColor)
+                        }
+                    }
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.white.opacity(0.06))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .cornerRadius(12)
 
-            
-            Spacer()
-            
-            Text("Current Heading: \(Int(locationManager.heading))°")
-                .padding()
-            
-            VStack(alignment: .leading, spacing: 10) {
-                // Display place name
-                HStack {
-                    Image(systemName: "mappin.circle")
-                    Text(locationManager.placeName)
-                        .fontWeight(.bold)
-                }
-                
-                HStack {
-                    Image(systemName: "arrow.up.and.down.circle")
-                    Text("Altitude: \(String(format: "%.1f", locationManager.altitude)) m")
-                }
-                
-                // Coordinates Display
-                if let coords = locationManager.coordinates {
-                    HStack {
-                        Image(systemName: "map")
-                        Text("Coordinates:")
-                        Text(coordinatesString(coords))
-                            .fontWeight(.bold)
+                    Button(action: {
+                        copyLocationInformation()
+                    }) {
+                        HStack {
+                            Image(systemName: isCopied ? "checkmark" : "doc.on.doc")
+                            Text(isCopied ? "Copied!" : "Copy Location Details")
+                        }
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(12)
                     }
                 }
-                
-                HStack {
-                    Image(systemName: "location.circle")
-                    Text("Accuracy: \(String(format: "%.1f", locationManager.accuracy)) m")
-                    .foregroundColor(accuracyColor)
-                }
+                .padding(.horizontal, 18)
+                .padding(.vertical)
             }
-            .padding()
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(10)
-            
-            Spacer()
-            // Large Copy Button
-            Button(action: {
-                copyLocationInformation()
-            }) {
-                HStack {
-                    Image(systemName: isCopied ? "checkmark" : "doc.on.doc")
-                    Text(isCopied ? "Copied!" : "Copy Location Details")
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(isCopied ? Color.blue : Color(#colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)))
-                .foregroundColor(.black)
-                .cornerRadius(10)
-                .font(.headline)
-            }
-            .padding()
-            
-            
-           
         }
     }
     
@@ -270,13 +264,13 @@ struct CompassView: View {
     var accuracyColor: Color {
         switch locationManager.accuracy {
         case ..<0:
-            return .red  // Invalid location
+            return .white.opacity(0.55)
         case 0..<10:
-            return .green  // Very accurate
+            return .white
         case 10..<50:
-            return .yellow  // Moderate accuracy
+            return .white.opacity(0.8)
         default:
-            return .red  // Poor accuracy
+            return .white.opacity(0.55)
         }
     }
 }
