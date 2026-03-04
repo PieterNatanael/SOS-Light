@@ -20,6 +20,7 @@
 		21AE6EFF2DC332F200026837 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE6EFE2DC332F200026837 /* StoreManager.swift */; };
 		21B448542CFD4D2D00FDC970 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B448532CFD4D2700FDC970 /* DiaryView.swift */; };
 		21F44C4F2DC863A300FC8F19 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C4E2DC863A300FC8F19 /* SubscriptionManager.swift */; };
+		21F44C512DD0000000FC8F19 /* SOSInfoSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		21AE6EFE2DC332F200026837 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		21B448532CFD4D2700FDC970 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		21F44C4E2DC863A300FC8F19 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSInfoSheetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				2179895C2C17F4460036040C /* SOS_LightApp.swift */,
 				2179895E2C17F4460036040C /* ContentView.swift */,
+				21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */,
 				215459232CFB11A400EA3D58 /* MainAppView.swift */,
 				215459212CFB0E1600EA3D58 /* CompassView.swift */,
 				21AE6EF32DC075F800026837 /* MapView.swift */,
@@ -177,6 +180,7 @@
 				21AE6EF42DC075F800026837 /* MapView.swift in Sources */,
 				21AE6EF62DC0B93000026837 /* DirectionView.swift in Sources */,
 				2179895F2C17F4460036040C /* ContentView.swift in Sources */,
+				21F44C512DD0000000FC8F19 /* SOSInfoSheetView.swift in Sources */,
 				215459242CFB11AB00EA3D58 /* MainAppView.swift in Sources */,
 				215459222CFB0E1B00EA3D58 /* CompassView.swift in Sources */,
 				21F44C4F2DC863A300FC8F19 /* SubscriptionManager.swift in Sources */,
