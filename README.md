@@ -1,75 +1,77 @@
-Stay prepared for emergencies with the SOS Light app.
+# SOS Light (iOS)
 
-Activate the SOS signal with a single tap to send a distress signal in Morse code (three short signals, three long signals, and three short signals again). The app blinks the screen and flash accordingly, making your distress signal visible even in low-light situations. Stop the signal easily when help arrives or the situation stabilizes. Simple, effective, and potentially life-saving.
+SOS Light is an emergency-focused iOS app with a one-tap SOS Morse light signal, compass/location tools, direction guidance, SOS diary notes, and a relax section with jokes. It is designed to keep core safety features fast and simple in stressful situations.
 
-Developer : Pieter Yoshua Natanael
+## 2-Minute Quick Start
+1. Open `/Users/pieteryoshua/Desktop/Pieter iOS App/SOS Light/SOS Light.xcodeproj` in Xcode.
+2. Select scheme `SOS Light`.
+3. Choose an iPhone simulator (or physical iPhone for flashlight testing).
+4. Press `Run`.
 
+## Requirements
+- macOS with Xcode 15.3+
+- iOS deployment target: 15.3+
+- SwiftUI + StoreKit 2 + CoreLocation
 
-Privacy Policy
+## What The App Does
+- Sends SOS Morse distress signal using screen flash + device torch.
+- Provides compass, location details, and direction-to-saved-location tools.
+- Lets users write/export SOS diary notes and use a calm-down joke feature.
 
-We respect your privacy and are committed to protecting any information you provide while using our app SOS Light.
+## Project Structure
+- `SOS Light/App`: app entry and tab shell
+- `SOS Light/Features/SOS`: SOS signal UI, sheet, view model, signal service
+- `SOS Light/Features/Compass`: compass UI + compass location manager
+- `SOS Light/Features/Direction`: direction UI + direction location handler
+- `SOS Light/Features/Diary`: diary UI, model, persistence, info sheet
+- `SOS Light/Features/Jokes`: joke model, relax UI, subscription/legal sheets
+- `SOS Light/Features/Map`: map/location feature
+- `SOS Light/Services/Store`: StoreKit subscription management
 
-Data Collection: We do not collect any personal data or information from our users. Your privacy is important to us, and we do not track or store any data related to your usage of the app.
+## Configuration
+This project does not require API keys or `.env` files.
 
-Contact Us: If you have any questions or concerns about our privacy policy or the app SOS Light, please contact us at pieternatanael@icloud.com.
+### In-App Purchase
+- Product ID used in code: `com.soslight.fullversion`
+- File: `/Users/pieteryoshua/Desktop/Pieter iOS App/SOS Light/SOS Light/Services/Store/SubscriptionManager.swift`
+- Make sure this product exists in App Store Connect for full purchase flow tests.
 
+### External Joke API
+- Endpoint: `https://official-joke-api.appspot.com/random_joke`
+- Used directly from app code (no API key required).
 
-Arabic:
+### Permissions
+- Location permission is required for Compass/Direction.
+- Usage description is defined in project build settings (`INFOPLIST_KEY_NSLocationWhenInUseUsageDescription`).
 
-سياسة الخصوصية
+## How To Run (Detailed)
+1. Open project in Xcode.
+2. Set a Team under Signing if testing on physical device.
+3. Run app.
+4. On first run, allow Location permission for compass/direction features.
+5. For flashlight SOS behavior, test on a physical iPhone (simulator has no torch).
 
-نحن نحترم خصوصيتك وملتزمون بحماية أي معلومات تقدمها أثناء استخدام تطبيقنا SOS Light.
+## Quick Manual Test Flow (60 seconds)
+1. SOS tab: start/stop SOS signal.
+2. Compass tab: verify heading updates and copy details works.
+3. Diary tab: create one note, then export.
+4. Location tab: save location and verify distance/arrow updates.
+5. Relax tab: fetch joke, show answer, open subscription sheet.
 
-جمع البيانات: نحن لا نجمع أي بيانات شخصية أو معلومات من مستخدمينا. خصوصيتك مهمة بالنسبة لنا، ونحن لا نتتبع أو نخزن أي بيانات تتعلق باستخدامك للتطبيق.
+## Common Issues / Troubleshooting
+- App builds but torch does not work:
+  - Torch only works on a physical device with flash hardware.
+- Compass/Direction not updating:
+  - Check Location permission in iOS Settings for SOS Light.
+- Subscription product not loading:
+  - Confirm `com.soslight.fullversion` exists and is active in App Store Connect.
+  - Use Sandbox test account for purchase/restore testing.
+- Xcode error about simulator runtimes:
+  - Install at least one iOS Simulator runtime from Xcode Settings > Platforms.
+- Signing/provisioning errors on device:
+  - Set your Apple Team in target Signing & Capabilities.
 
-اتصل بنا: إذا كان لديك أي أسئلة أو مخاوف بشأن سياسة الخصوصية الخاصة بنا أو تطبيق SOS Light، يرجى الاتصال بنا على pieternatanael@icloud.com.
-
-Chinese (Simplified):
-
-隐私政策
-
-我们尊重您的隐私，并致力于保护您在使用我们的应用程序SOS Light时提供的任何信息。
-
-数据收集: 我们不会收集任何个人数据或用户信息。您的隐私对我们很重要，我们不会跟踪或存储任何与您使用该应用程序相关的数据。
-
-联系我们: 如果您对我们的隐私政策或应用程序SOS Light有任何疑问或担忧，请通过pieternatanael@icloud.com联系我们。
-
-French:
-
-Politique de Confidentialité
-
-Nous respectons votre vie privée et nous nous engageons à protéger toute information que vous fournissez lors de l'utilisation de notre application SOS Light.
-
-Collecte de Données: Nous ne collectons aucune donnée personnelle ou information de nos utilisateurs. Votre vie privée est importante pour nous, et nous ne suivons ni stockons aucune donnée liée à votre utilisation de l'application.
-
-Contactez-nous: Si vous avez des questions ou des préoccupations concernant notre politique de confidentialité ou l'application SOS Light, veuillez nous contacter à l'adresse pieternatanael@icloud.com.
-
-German:
-
-Datenschutzrichtlinie
-
-Wir respektieren Ihre Privatsphäre und verpflichten uns, alle Informationen zu schützen, die Sie bei der Nutzung unserer App SOS Light bereitstellen.
-
-Datenerhebung: Wir sammeln keine persönlichen Daten oder Informationen von unseren Nutzern. Ihre Privatsphäre ist uns wichtig, und wir verfolgen oder speichern keine Daten im Zusammenhang mit Ihrer Nutzung der App.
-
-Kontaktieren Sie uns: Wenn Sie Fragen oder Bedenken bezüglich unserer Datenschutzrichtlinie oder der App SOS Light haben, kontaktieren Sie uns bitte unter pieternatanael@icloud.com.
-
-Spanish (Spain):
-
-Política de Privacidad
-
-Respetamos tu privacidad y nos comprometemos a proteger cualquier información que proporciones mientras usas nuestra aplicación SOS Light.
-
-Recolección de Datos: No recopilamos ningún dato personal o información de nuestros usuarios. Tu privacidad es importante para nosotros, y no rastreamos ni almacenamos ningún dato relacionado con tu uso de la aplicación.
-
-Contáctanos: Si tienes alguna pregunta o preocupación sobre nuestra política de privacidad o la aplicación SOS Light, por favor contáctanos en pieternatanael@icloud.com.
-
-Vietnamese:
-
-Chính sách Bảo mật
-
-Chúng tôi tôn trọng quyền riêng tư của bạn và cam kết bảo vệ bất kỳ thông tin nào bạn cung cấp khi sử dụng ứng dụng SOS Light của chúng tôi.
-
-Thu thập Dữ liệu: Chúng tôi không thu thập bất kỳ dữ liệu cá nhân hoặc thông tin nào từ người dùng của mình. Quyền riêng tư của bạn rất quan trọng đối với chúng tôi, và chúng tôi không theo dõi hoặc lưu trữ bất kỳ dữ liệu nào liên quan đến việc sử dụng ứng dụng của bạn.
-
-Liên hệ với chúng tôi: Nếu bạn có bất kỳ câu hỏi hoặc mối quan tâm nào về chính sách bảo mật của chúng tôi hoặc ứng dụng SOS Light, vui lòng liên hệ với chúng tôi tại pieternatanael@icloud.com.
+## Known Limitations
+- Torch, heading quality, and location accuracy depend on device hardware/sensors.
+- Joke fetching requires internet access.
+- In-app purchase behavior depends on App Store Connect + Sandbox configuration.
