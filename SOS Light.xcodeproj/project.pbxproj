@@ -21,6 +21,7 @@
 		21B448542CFD4D2D00FDC970 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B448532CFD4D2700FDC970 /* DiaryView.swift */; };
 		21F44C4F2DC863A300FC8F19 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C4E2DC863A300FC8F19 /* SubscriptionManager.swift */; };
 		21F44C512DD0000000FC8F19 /* SOSInfoSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */; };
+		21F44C532DD0000100FC8F19 /* SOSViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C522DD0000100FC8F19 /* SOSViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		21B448532CFD4D2700FDC970 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		21F44C4E2DC863A300FC8F19 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSInfoSheetView.swift; sourceTree = "<group>"; };
+		21F44C522DD0000100FC8F19 /* SOSViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			children = (
 				2179895C2C17F4460036040C /* SOS_LightApp.swift */,
 				2179895E2C17F4460036040C /* ContentView.swift */,
+				21F44C522DD0000100FC8F19 /* SOSViewModel.swift */,
 				21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */,
 				215459232CFB11A400EA3D58 /* MainAppView.swift */,
 				215459212CFB0E1600EA3D58 /* CompassView.swift */,
@@ -134,7 +137,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1530;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					217989582C17F4460036040C = {
 						CreatedOnToolsVersion = 15.3;
@@ -180,6 +183,7 @@
 				21AE6EF42DC075F800026837 /* MapView.swift in Sources */,
 				21AE6EF62DC0B93000026837 /* DirectionView.swift in Sources */,
 				2179895F2C17F4460036040C /* ContentView.swift in Sources */,
+				21F44C532DD0000100FC8F19 /* SOSViewModel.swift in Sources */,
 				21F44C512DD0000000FC8F19 /* SOSInfoSheetView.swift in Sources */,
 				215459242CFB11AB00EA3D58 /* MainAppView.swift in Sources */,
 				215459222CFB0E1B00EA3D58 /* CompassView.swift in Sources */,
@@ -228,6 +232,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = L295MT4VTH;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -291,6 +296,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = L295MT4VTH;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -320,7 +326,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2.34;
 				DEVELOPMENT_ASSET_PATHS = "\"SOS Light/Preview Content\"";
-				DEVELOPMENT_TEAM = L295MT4VTH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SOS Light needs access to your location to provide location functionality";
@@ -352,7 +357,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2.34;
 				DEVELOPMENT_ASSET_PATHS = "\"SOS Light/Preview Content\"";
-				DEVELOPMENT_TEAM = L295MT4VTH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SOS Light needs access to your location to provide location functionality";
