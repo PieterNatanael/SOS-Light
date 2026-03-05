@@ -1,19 +1,10 @@
-//
-//  DirectionView.swift
-//  SOS Light
-//
-//  Created by Pieter Yoshua Natanael on 29/04/25.
-//
-
-
 import SwiftUI
-import CoreLocation
 
 struct DirectionView: View {
-    @StateObject private var locationHandler = LocationHandler()
+    @StateObject private var locationHandler = DirectionLocationHandler()
     @State private var isLocationLocked = false
-    @State private var showMap = false // This state controls the visibility of the map
-    
+    @State private var showMap = false
+
     var body: some View {
         ZStack {
             LinearGradient(
@@ -24,7 +15,7 @@ struct DirectionView: View {
             .ignoresSafeArea()
 
             VStack(spacing: 18) {
-                if !showMap { // Only show the rest of the UI if map is not visible
+                if !showMap {
                     Text("DIRECTION")
                         .font(.system(size: 34, weight: .black, design: .rounded))
                         .tracking(2)
@@ -42,11 +33,11 @@ struct DirectionView: View {
                             .foregroundColor(.white)
                             .animation(.easeInOut, value: locationHandler.arrowRotation)
                     }
-                    
+
                     Text("Distance: \(locationHandler.distanceText)")
                         .font(.headline)
                         .foregroundColor(.white.opacity(0.9))
-                    
+
                     VStack(spacing: 10) {
                         Button(action: {
                             if !isLocationLocked {
@@ -62,7 +53,7 @@ struct DirectionView: View {
                                 .cornerRadius(12)
                         }
                         .disabled(isLocationLocked)
-                        
+
                         Button(action: {
                             isLocationLocked.toggle()
                         }) {
@@ -78,7 +69,7 @@ struct DirectionView: View {
                                 )
                                 .cornerRadius(12)
                         }
-                        
+
                         Button(action: {
                             showMap.toggle()
                         }) {
@@ -95,14 +86,14 @@ struct DirectionView: View {
                                 .cornerRadius(12)
                         }
                     }
-                    
+
                     Text("Arrow works offline. It guides you back to the saved location.")
                         .font(.footnote)
                         .foregroundColor(.white.opacity(0.75))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                 }
-                
+
                 if showMap {
                     VStack(spacing: 12) {
                         Button(action: {
@@ -117,7 +108,7 @@ struct DirectionView: View {
                                 .cornerRadius(12)
                         }
                         .padding(.top, 8)
-                        
+
                         MapView()
                             .cornerRadius(12)
                     }
@@ -128,89 +119,6 @@ struct DirectionView: View {
         .onAppear {
             locationHandler.start()
         }
-    }
-}
-
-#Preview {
-    DirectionView()
-}
-
-
-// MARK: - Location + Compass Handler (Integrated in same file)
-class LocationHandler: NSObject, ObservableObject, CLLocationManagerDelegate {
-    private let locationManager = CLLocationManager()
-
-    private var savedLocation: CLLocationCoordinate2D?
-    @Published var arrowRotation: Double = 0.0
-    @Published var distanceText: String = "--"
-
-    override init() {
-        super.init()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.headingFilter = 1
-        locationManager.requestWhenInUseAuthorization()
-    }
-
-    func start() {
-        locationManager.startUpdatingLocation()
-        locationManager.startUpdatingHeading()
-    }
-
-    func saveCurrentLocation() {
-        if let loc = locationManager.location?.coordinate {
-            savedLocation = loc
-        }
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        guard let userLoc = locationManager.location?.coordinate,
-              let targetLoc = savedLocation else { return }
-
-        let bearingToTarget = getBearing(from: userLoc, to: targetLoc)
-        let heading = newHeading.trueHeading
-        let angle = bearingToTarget - heading
-        arrowRotation = angle
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        updateDistance()
-    }
-
-    private func updateDistance() {
-        guard let userLoc = locationManager.location,
-              let target = savedLocation else {
-            distanceText = "--"
-            return
-        }
-
-        let distance = userLoc.distance(from: CLLocation(latitude: target.latitude, longitude: target.longitude))
-        if distance < 1000 {
-            distanceText = String(format: "%.0f meters", distance)
-        } else {
-            distanceText = String(format: "%.2f km", distance / 1000)
-        }
-    }
-
-    private func getBearing(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Double {
-        let fromLat = degreesToRadians(from.latitude)
-        let fromLon = degreesToRadians(from.longitude)
-        let toLat = degreesToRadians(to.latitude)
-        let toLon = degreesToRadians(to.longitude)
-
-        let dLon = toLon - fromLon
-        let y = sin(dLon) * cos(toLat)
-        let x = cos(fromLat) * sin(toLat) - sin(fromLat) * cos(toLat) * cos(dLon)
-        let radiansBearing = atan2(y, x)
-        return radiansToDegrees(radiansBearing)
-    }
-
-    private func degreesToRadians(_ degrees: Double) -> Double {
-        return degrees * .pi / 180.0
-    }
-
-    private func radiansToDegrees(_ radians: Double) -> Double {
-        return radians * 180.0 / .pi
     }
 }
 

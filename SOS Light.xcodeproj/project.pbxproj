@@ -21,7 +21,17 @@
 		21B448542CFD4D2D00FDC970 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B448532CFD4D2700FDC970 /* DiaryView.swift */; };
 		21F44C4F2DC863A300FC8F19 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C4E2DC863A300FC8F19 /* SubscriptionManager.swift */; };
 		21F44C512DD0000000FC8F19 /* SOSInfoSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */; };
+		21F44C552DD0000200FC8F19 /* SOSSignalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C542DD0000200FC8F19 /* SOSSignalService.swift */; };
 		21F44C532DD0000100FC8F19 /* SOSViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C522DD0000100FC8F19 /* SOSViewModel.swift */; };
+		21F44C6B2DD1001000FC8F19 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C6A2DD1001000FC8F19 /* LocationManager.swift */; };
+		21F44C6D2DD1001100FC8F19 /* CompassMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C6C2DD1001100FC8F19 /* CompassMarkView.swift */; };
+		21F44C6F2DD1001200FC8F19 /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C6E2DD1001200FC8F19 /* LocationHandler.swift */; };
+		21F44C712DD1001300FC8F19 /* AngerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C702DD1001300FC8F19 /* AngerEntry.swift */; };
+		21F44C732DD1001400FC8F19 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C722DD1001400FC8F19 /* DataStore.swift */; };
+		21F44C752DD1001500FC8F19 /* DiaryInfoSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C742DD1001500FC8F19 /* DiaryInfoSheetView.swift */; };
+		21F44C772DD1001600FC8F19 /* SOSRelaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C762DD1001600FC8F19 /* SOSRelaxView.swift */; };
+		21F44C792DD1001700FC8F19 /* SOSRelaxSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C782DD1001700FC8F19 /* SOSRelaxSubscriptionView.swift */; };
+		21F44C7B2DD1001800FC8F19 /* SOSRelaxLegalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F44C7A2DD1001800FC8F19 /* SOSRelaxLegalInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +50,17 @@
 		21B448532CFD4D2700FDC970 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		21F44C4E2DC863A300FC8F19 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSInfoSheetView.swift; sourceTree = "<group>"; };
+		21F44C542DD0000200FC8F19 /* SOSSignalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSSignalService.swift; sourceTree = "<group>"; };
 		21F44C522DD0000100FC8F19 /* SOSViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSViewModel.swift; sourceTree = "<group>"; };
+		21F44C6A2DD1001000FC8F19 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		21F44C6C2DD1001100FC8F19 /* CompassMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassMarkView.swift; sourceTree = "<group>"; };
+		21F44C6E2DD1001200FC8F19 /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
+		21F44C702DD1001300FC8F19 /* AngerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngerEntry.swift; sourceTree = "<group>"; };
+		21F44C722DD1001400FC8F19 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		21F44C742DD1001500FC8F19 /* DiaryInfoSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryInfoSheetView.swift; sourceTree = "<group>"; };
+		21F44C762DD1001600FC8F19 /* SOSRelaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSRelaxView.swift; sourceTree = "<group>"; };
+		21F44C782DD1001700FC8F19 /* SOSRelaxSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSRelaxSubscriptionView.swift; sourceTree = "<group>"; };
+		21F44C7A2DD1001800FC8F19 /* SOSRelaxLegalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSRelaxLegalInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,22 +95,112 @@
 		2179895B2C17F4460036040C /* SOS Light */ = {
 			isa = PBXGroup;
 			children = (
-				2179895C2C17F4460036040C /* SOS_LightApp.swift */,
-				2179895E2C17F4460036040C /* ContentView.swift */,
-				21F44C522DD0000100FC8F19 /* SOSViewModel.swift */,
-				21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */,
-				215459232CFB11A400EA3D58 /* MainAppView.swift */,
-				215459212CFB0E1600EA3D58 /* CompassView.swift */,
-				21AE6EF32DC075F800026837 /* MapView.swift */,
-				21AE6EF92DC1F4FC00026837 /* Joke.swift */,
-				21AE6EFE2DC332F200026837 /* StoreManager.swift */,
-				21F44C4E2DC863A300FC8F19 /* SubscriptionManager.swift */,
-				21B448532CFD4D2700FDC970 /* DiaryView.swift */,
-				21AE6EF52DC0B93000026837 /* DirectionView.swift */,
+				21F44C602DD1000000FC8F19 /* App */,
+				21F44C612DD1000000FC8F19 /* Features */,
+				21F44C622DD1000000FC8F19 /* Services */,
 				217989602C17F4480036040C /* Assets.xcassets */,
 				217989622C17F4480036040C /* Preview Content */,
 			);
 			path = "SOS Light";
+			sourceTree = "<group>";
+		};
+		21F44C602DD1000000FC8F19 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2179895C2C17F4460036040C /* SOS_LightApp.swift */,
+				215459232CFB11A400EA3D58 /* MainAppView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		21F44C612DD1000000FC8F19 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				21F44C632DD1000000FC8F19 /* SOS */,
+				21F44C642DD1000000FC8F19 /* Compass */,
+				21F44C652DD1000000FC8F19 /* Direction */,
+				21F44C662DD1000000FC8F19 /* Diary */,
+				21F44C672DD1000000FC8F19 /* Jokes */,
+				21F44C682DD1000000FC8F19 /* Map */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		21F44C622DD1000000FC8F19 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				21F44C692DD1000000FC8F19 /* Store */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		21F44C632DD1000000FC8F19 /* SOS */ = {
+			isa = PBXGroup;
+			children = (
+				2179895E2C17F4460036040C /* ContentView.swift */,
+				21F44C502DD0000000FC8F19 /* SOSInfoSheetView.swift */,
+				21F44C522DD0000100FC8F19 /* SOSViewModel.swift */,
+				21F44C542DD0000200FC8F19 /* SOSSignalService.swift */,
+			);
+			path = SOS;
+			sourceTree = "<group>";
+		};
+		21F44C642DD1000000FC8F19 /* Compass */ = {
+			isa = PBXGroup;
+			children = (
+				215459212CFB0E1600EA3D58 /* CompassView.swift */,
+				21F44C6A2DD1001000FC8F19 /* LocationManager.swift */,
+				21F44C6C2DD1001100FC8F19 /* CompassMarkView.swift */,
+			);
+			path = Compass;
+			sourceTree = "<group>";
+		};
+		21F44C652DD1000000FC8F19 /* Direction */ = {
+			isa = PBXGroup;
+			children = (
+				21AE6EF52DC0B93000026837 /* DirectionView.swift */,
+				21F44C6E2DD1001200FC8F19 /* LocationHandler.swift */,
+			);
+			path = Direction;
+			sourceTree = "<group>";
+		};
+		21F44C662DD1000000FC8F19 /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				21B448532CFD4D2700FDC970 /* DiaryView.swift */,
+				21F44C702DD1001300FC8F19 /* AngerEntry.swift */,
+				21F44C722DD1001400FC8F19 /* DataStore.swift */,
+				21F44C742DD1001500FC8F19 /* DiaryInfoSheetView.swift */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
+		21F44C672DD1000000FC8F19 /* Jokes */ = {
+			isa = PBXGroup;
+			children = (
+				21AE6EF92DC1F4FC00026837 /* Joke.swift */,
+				21F44C762DD1001600FC8F19 /* SOSRelaxView.swift */,
+				21F44C782DD1001700FC8F19 /* SOSRelaxSubscriptionView.swift */,
+				21F44C7A2DD1001800FC8F19 /* SOSRelaxLegalInfoView.swift */,
+			);
+			path = Jokes;
+			sourceTree = "<group>";
+		};
+		21F44C682DD1000000FC8F19 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				21AE6EF32DC075F800026837 /* MapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		21F44C692DD1000000FC8F19 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				21AE6EFE2DC332F200026837 /* StoreManager.swift */,
+				21F44C4E2DC863A300FC8F19 /* SubscriptionManager.swift */,
+			);
+			path = Store;
 			sourceTree = "<group>";
 		};
 		217989622C17F4480036040C /* Preview Content */ = {
@@ -183,13 +293,23 @@
 				21AE6EF42DC075F800026837 /* MapView.swift in Sources */,
 				21AE6EF62DC0B93000026837 /* DirectionView.swift in Sources */,
 				2179895F2C17F4460036040C /* ContentView.swift in Sources */,
+				21F44C552DD0000200FC8F19 /* SOSSignalService.swift in Sources */,
 				21F44C532DD0000100FC8F19 /* SOSViewModel.swift in Sources */,
 				21F44C512DD0000000FC8F19 /* SOSInfoSheetView.swift in Sources */,
 				215459242CFB11AB00EA3D58 /* MainAppView.swift in Sources */,
 				215459222CFB0E1B00EA3D58 /* CompassView.swift in Sources */,
 				21F44C4F2DC863A300FC8F19 /* SubscriptionManager.swift in Sources */,
 				21AE6EFF2DC332F200026837 /* StoreManager.swift in Sources */,
+				21F44C6B2DD1001000FC8F19 /* LocationManager.swift in Sources */,
+				21F44C6D2DD1001100FC8F19 /* CompassMarkView.swift in Sources */,
+				21F44C6F2DD1001200FC8F19 /* LocationHandler.swift in Sources */,
+				21F44C712DD1001300FC8F19 /* AngerEntry.swift in Sources */,
+				21F44C732DD1001400FC8F19 /* DataStore.swift in Sources */,
+				21F44C752DD1001500FC8F19 /* DiaryInfoSheetView.swift in Sources */,
 				21AE6EFA2DC1F4FC00026837 /* Joke.swift in Sources */,
+				21F44C772DD1001600FC8F19 /* SOSRelaxView.swift in Sources */,
+				21F44C792DD1001700FC8F19 /* SOSRelaxSubscriptionView.swift in Sources */,
+				21F44C7B2DD1001800FC8F19 /* SOSRelaxLegalInfoView.swift in Sources */,
 				2179895D2C17F4460036040C /* SOS_LightApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

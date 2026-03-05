@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AVFoundation
 
 private enum SOSConstants {
     static let pulseInterval: TimeInterval = 0.5
@@ -20,6 +19,11 @@ final class SOSViewModel: ObservableObject {
     @Published var isSoundOn = false
 
     private var flashTimer: Timer?
+    private let signalService: SOSSignalService
+
+    init(signalService: SOSSignalService = SOSSignalService()) {
+        self.signalService = signalService
+    }
 
     func toggleSOS() {
         isSOSActive.toggle()
@@ -40,10 +44,10 @@ final class SOSViewModel: ObservableObject {
 
             if currentIndex < sequence.count {
                 let value = sequence[currentIndex]
-                self.toggleFlash(on: value)
+                self.signalService.setFlash(on: value)
                 self.toggleScreen(on: value)
                 if value && self.isSoundOn {
-                    self.playSound()
+                    self.signalService.playSound()
                 }
                 currentIndex += 1
             } else {
@@ -80,33 +84,12 @@ final class SOSViewModel: ObservableObject {
     func stopSOS() {
         flashTimer?.invalidate()
         flashTimer = nil
-        turnOffFlash()
+        signalService.turnOffFlash()
         screenColor = .black
-    }
-
-    // Torch control is isolated here so the broadcast logic only deals with on/off pulses.
-    func toggleFlash(on: Bool) {
-        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
-        try? device.lockForConfiguration()
-        device.torchMode = on ? .on : .off
-        device.unlockForConfiguration()
     }
 
     // The screen flashes by swapping between the two high-contrast background colors.
     func toggleScreen(on: Bool) {
         screenColor = on ? .white : .black
-    }
-
-    // Always turn the torch off explicitly when SOS stops.
-    func turnOffFlash() {
-        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
-        try? device.lockForConfiguration()
-        device.torchMode = .off
-        device.unlockForConfiguration()
-    }
-
-    // Play the existing system sound only when the user has enabled it.
-    func playSound() {
-        AudioServicesPlaySystemSound(1033)
     }
 }
