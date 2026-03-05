@@ -3,10 +3,11 @@
 SOS Light is an emergency-focused iOS app with a one-tap SOS Morse light signal, compass/location tools, direction guidance, SOS diary notes, and a relax section with jokes. It is designed to keep core safety features fast and simple in stressful situations.
 
 ## 2-Minute Quick Start
-1. Open `/Users/pieteryoshua/Desktop/Pieter iOS App/SOS Light/SOS Light.xcodeproj` in Xcode.
-2. Select scheme `SOS Light`.
-3. Choose an iPhone simulator (or physical iPhone for flashlight testing).
-4. Press `Run`.
+1. Clone this repository.
+2. Open `SOS Light.xcodeproj` in Xcode.
+3. Select scheme `SOS Light`.
+4. Choose an iPhone simulator (or physical iPhone for flashlight testing).
+5. Press `Run`.
 
 ## Requirements
 - macOS with Xcode 15.3+
@@ -33,7 +34,7 @@ This project does not require API keys or `.env` files.
 
 ### In-App Purchase
 - Product ID used in code: `com.soslight.fullversion`
-- File: `/Users/pieteryoshua/Desktop/Pieter iOS App/SOS Light/SOS Light/Services/Store/SubscriptionManager.swift`
+- File: `SOS Light/Services/Store/SubscriptionManager.swift`
 - Make sure this product exists in App Store Connect for full purchase flow tests.
 
 ### External Joke API
